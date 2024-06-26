@@ -182,4 +182,13 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <returns></returns>
     Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<OKXTrade>> onData, CancellationToken ct = default);
 
+    /// <summary>
+    /// Subscribe to the recent trades data updates. Data will be pushed whenever there is a trade. Every update contain only one trade..
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-all-trades-channel" /></para>
+    /// </summary>
+    /// <param name="symbol">Symbols</param>
+    /// <param name="onData">On Data Handler</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<CallResult<UpdateSubscription>> SubscribeToAllTradeUpdatesAsync(string symbol, Action<DataEvent<OKXTrade>> onData, CancellationToken ct = default);
 }
