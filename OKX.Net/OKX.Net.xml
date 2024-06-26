@@ -512,6 +512,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiExchangeData.SubscribeToSystemStatusUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.System.OKXStatus}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiExchangeData.SubscribeToAllTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Market.OKXTrade}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="T:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading">
             <inheritdoc />
         </member>
@@ -2492,6 +2495,16 @@
             <summary>
             Subscribe to the recent trades data updates. Data will be pushed whenever there is a trade.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-trades-channel" /></para>
+            </summary>
+            <param name="symbol">Symbols</param>
+            <param name="onData">On Data Handler</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiExchangeData.SubscribeToAllTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Market.OKXTrade}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to the recent trades data updates. Data will be pushed whenever there is a trade. Every update contain only one trade..
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-all-trades-channel" /></para>
             </summary>
             <param name="symbol">Symbols</param>
             <param name="onData">On Data Handler</param>

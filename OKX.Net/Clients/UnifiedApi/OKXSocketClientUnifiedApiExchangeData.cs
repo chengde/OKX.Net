@@ -276,4 +276,17 @@ public class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedApiE
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
+    /// <inheritdoc />
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAllTradeUpdatesAsync(string symbol, Action<DataEvent<OKXTrade>> onData, CancellationToken ct = default)
+    {
+        var subscription = new OKXSubscription<OKXTrade>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+          {
+            new Objects.Sockets.Models.OKXSocketArgs
+                {
+                    Channel = "trades-all",
+                    Symbol = symbol
+                }
+          }, onData, null, false);
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
+    }
 }
