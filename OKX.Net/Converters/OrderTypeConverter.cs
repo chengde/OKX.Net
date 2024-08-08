@@ -15,5 +15,7 @@ internal class OrderTypeConverter : BaseConverter<OKXOrderType>
         new KeyValuePair<OKXOrderType, string>(OKXOrderType.FillOrKill, "fok"),
         new KeyValuePair<OKXOrderType, string>(OKXOrderType.ImmediateOrCancel, "ioc"),
         new KeyValuePair<OKXOrderType, string>(OKXOrderType.OptimalLimitOrder, "optimal_limit_ioc"),
+        new KeyValuePair<OKXOrderType, string>(OKXOrderType.MarketMakerProtection,"mmp"),
+        new KeyValuePair<OKXOrderType, string>(OKXOrderType.MarketMakerProtection,"mmp_and_post_only")
     };
 }
