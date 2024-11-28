@@ -45,7 +45,10 @@ internal class OKXSubscription<T> : Subscription<OKXSocketResponse, OKXSocketRes
     {
         var data = (OKXSocketUpdate<IEnumerable<T>>)message.Data;
         if (_singleHandler != null && data.Data.Any())
-            _singleHandler.Invoke(message.As(data.Data.Single(), data.Arg.Channel, data.Arg.Symbol, SocketUpdateType.Update));
+        {
+            foreach(var dat in data.Data)
+                _singleHandler.Invoke(message.As(dat, data.Arg.Channel, data.Arg.Symbol, SocketUpdateType.Update));
+        }
         else if (_arrayHandler != null)
             _arrayHandler!.Invoke(message.As(data.Data, data.Arg.Channel, data.Arg.Symbol, SocketUpdateType.Update));
         return new CallResult(null);
