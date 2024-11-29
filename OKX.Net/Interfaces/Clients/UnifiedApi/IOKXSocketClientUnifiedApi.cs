@@ -25,4 +25,8 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// </summary>
     /// <see cref="IOKXSocketClientUnifiedApiTrading"/>
     IOKXSocketClientUnifiedApiTrading Trading { get; }
+    /// <summary>
+    /// Block Trading data and queries
+    /// </summary>
+    IOKXSocketClientUnifiedApiBlockTrading BlockTrading { get; }
 }

@@ -1,0 +1,26 @@
+﻿namespace OKX.Net.Objects.BlockTrading;
+/// <summary>
+/// Represents a leg in the RFQ.
+/// </summary>
+public record OKXRFQLeg(
+    [property: JsonPropertyName("instId")]
+    string InstrumentId, // Instrument ID, e.g., BTC-USDT-SWAP.
+
+    [property: JsonPropertyName("tdMode")]
+    string TradeMode, // Trade mode. Margin mode: cross isolated. Non-Margin mode: cash.
+
+    [property: JsonPropertyName("ccy")]
+    string Currency, // Margin currency. Only applicable to cross MARGIN orders in Spot and futures mode.
+
+    [property: JsonPropertyName("sz")]
+    string Size, // Size of the leg.
+
+    [property: JsonPropertyName("side")]
+    string Side, // The direction of the leg. Valid values can be buy or sell.
+
+    [property: JsonPropertyName("posSide")]
+    string PositionSide, // Position side. Default is net in the net mode. Only applicable to FUTURES/SWAP.
+
+    [property: JsonPropertyName("tgtCcy")]
+    string TargetCurrency // Defines the unit of the “size” attribute. Only applicable to instType = SPOT.
+);
