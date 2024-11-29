@@ -30,6 +30,8 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
     public IOKXSocketClientUnifiedApiExchangeData ExchangeData { get; }
     /// <inheritdoc />
     public IOKXSocketClientUnifiedApiTrading Trading { get; }
+    /// <inheritdoc />
+    public IOKXSocketClientUnifiedApiBlockTrading BlockTrading { get; }
 
     internal readonly string _ref;
     private readonly bool _demoTrading;

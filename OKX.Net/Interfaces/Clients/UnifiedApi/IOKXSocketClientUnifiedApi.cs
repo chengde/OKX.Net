@@ -22,4 +22,8 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// Trading data and queries
     /// </summary>
     IOKXSocketClientUnifiedApiTrading Trading { get; }
+    /// <summary>
+    /// Block Trading data and queries
+    /// </summary>
+    IOKXSocketClientUnifiedApiBlockTrading BlockTrading { get; }
 }
