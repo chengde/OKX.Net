@@ -12,7 +12,7 @@ public record OKXRFQUpdate(
     DateTime LastUpdatedTime, // The timestamp the RFQ was updated latest, Unix timestamp format in milliseconds.
 
     [property: JsonPropertyName("state")]
-    string Status, // The status of the RFQ. Valid values can be active, canceled, filled, expired or failed.
+    RFQStatus Status, // The status of the RFQ. Valid values can be active, canceled, filled, expired or failed.
 
     [property: JsonPropertyName("counterparties")]
     List<string> CounterpartiesTraderCodes, // The list of counterparties traderCode the RFQ was broadcasted to.
@@ -24,7 +24,7 @@ public record OKXRFQUpdate(
     string ClientRfqId, // Client-supplied RFQ ID. This attribute is treated as client sensitive information.
 
     [property: JsonPropertyName("tag")]
-    string RfqTag, // RFQ tag. The block trade associated with the RFQ will have the same tag.
+    string Tag, // RFQ tag. The block trade associated with the RFQ will have the same tag.
 
     [property: JsonPropertyName("flowType")]
     string FlowType, // Identify the type of the RFQ.
@@ -39,6 +39,6 @@ public record OKXRFQUpdate(
     bool AllowPartialExecution, // Whether the RFQ can be partially filled provided that the shape of legs stays the same.
 
     [property: JsonPropertyName("legs")]
-    List<OKXRFQLeg> Legs // An array of objects containing each leg of the RFQ.
+    List<OKXCreateQuoteLeg> Legs // An array of objects containing each leg of the RFQ.
 );
 

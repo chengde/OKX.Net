@@ -5447,7 +5447,7 @@
             <param name="ct"></param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiBlockTrading.SubscribeToStructureBlockTradesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.BlockTrading.OKXStructureBlockTradesUpdate}},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiBlockTrading.SubscribeToStructureBlockTradesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.BlockTrading.OKXBlockTrade}},System.Threading.CancellationToken)">
             <summary>
             Retrieve user's block trades data. All the legs in the same block trade are included in the same update. Data will be pushed whenever there is a block trade that the user is a counterparty for.
             <para><a href="https://www.okx.com/docs-v5/en/?shell#block-trading-websocket-private-channel-structure-block-trades-channel" /></para>
@@ -7881,14 +7881,74 @@
             Affiliate code
             </summary>
         </member>
+        <member name="T:OKX.Net.Objects.BlockTrading.RFQStatus">
+            <summary>
+            Represents the status of the RFQ or Quote.
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Objects.BlockTrading.RFQStatus.Active">
+            <summary>
+            The quote is active.
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Objects.BlockTrading.RFQStatus.Canceled">
+            <summary>
+            The quote has been canceled.
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Objects.BlockTrading.RFQStatus.PendingFill">
+            <summary>
+            The quote is pending fill.
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Objects.BlockTrading.RFQStatus.Filled">
+            <summary>
+            The quote has been filled.
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Objects.BlockTrading.RFQStatus.Expired">
+            <summary>
+            The quote has expired.
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Objects.BlockTrading.RFQStatus.TradedAway">
+            <summary>
+            The quote has traded away. traded_away only applies to Maker
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Objects.BlockTrading.RFQStatus.Failed">
+            <summary>
+            The quote has failed.
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.BlockTrading.OKXBlockTrade">
+            <summary>
+            Represents an OKX structure block trade update.
+            </summary>
+        </member>
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXBlockTrade.#ctor(System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXBlockTradeLeg})">
+            <summary>
+            Represents an OKX structure block trade update.
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.BlockTrading.OKXBlockTradeLeg">
             <summary>
             Represents a leg in the trade, which is a subclass of QuoteLeg.
             </summary>
         </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXBlockTradeLeg.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXBlockTradeLeg.#ctor(System.String,System.Decimal,System.Decimal,OKX.Net.Enums.OrderSide,System.String,System.Decimal,System.String,System.String)">
             <summary>
             Represents a leg in the trade, which is a subclass of QuoteLeg.
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.BlockTrading.OKXBoolean">
+            <summary>
+            Server time
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.BlockTrading.OKXBoolean.Result">
+            <summary>
+            System time
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.BlockTrading.OKXCancelQuoteResponse">
@@ -7911,12 +7971,32 @@
             Represents a response for canceling an RFQ on OKX.
             </summary>
         </member>
+        <member name="T:OKX.Net.Objects.BlockTrading.OKXCounterparty">
+            <summary>
+            RFQ Counterparty
+            </summary>
+        </member>
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXCounterparty.#ctor(System.String,System.String,System.String)">
+            <summary>
+            RFQ Counterparty
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.BlockTrading.OKXCreateQuoteLeg">
+            <summary>
+            Represents a leg in the Quote, which is a subclass of RFQLeg.
+            </summary>
+        </member>
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXCreateQuoteLeg.#ctor(System.String,OKX.Net.Enums.TradeMode,System.String,System.Decimal,System.Decimal,OKX.Net.Enums.OrderSide,OKX.Net.Enums.PositionSide,System.String)">
+            <summary>
+            Represents a leg in the Quote, which is a subclass of RFQLeg.
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.BlockTrading.OKXCreateQuoteResponse">
             <summary>
             Represents the details of a quote.
             </summary>
         </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXCreateQuoteResponse.#ctor(System.DateTime,System.DateTime,System.String,System.String,System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXRFQQuoteLeg})">
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXCreateQuoteResponse.#ctor(System.DateTime,System.DateTime,OKX.Net.Objects.BlockTrading.RFQStatus,System.String,System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXCreateQuoteLeg})">
             <summary>
             Represents the details of a quote.
             </summary>
@@ -7926,22 +8006,12 @@
             Represents a response for creating an RFQ on OKX.
             </summary>
         </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXCreateRFQResponse.#ctor(System.DateTime,System.DateTime,System.String,System.Collections.Generic.List{System.String},System.DateTime,System.String,System.String,System.Boolean,System.String,System.String,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXRFQLeg})">
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXCreateRFQResponse.#ctor(System.DateTime,System.DateTime,OKX.Net.Objects.BlockTrading.RFQStatus,System.Collections.Generic.List{System.String},System.DateTime,System.String,System.String,System.Boolean,System.String,System.String,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXCreateQuoteLeg})">
             <summary>
             Represents a response for creating an RFQ on OKX.
             </summary>
         </member>
-        <member name="T:OKX.Net.Objects.BlockTrading.OKXExecuteQuoteResponse">
-            <summary>
-            Represents a response for executing a quote on OKX.
-            </summary>
-        </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXExecuteQuoteResponse.#ctor(System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXBlockTradeLeg})">
-            <summary>
-            Represents a response for executing a quote on OKX.
-            </summary>
-        </member>
-        <member name="T:OKX.Net.Objects.BlockTrading.OKXQuoteLeg">
+        <member name="T:OKX.Net.Objects.BlockTrading.OKXExecuteQuoteLeg">
             <summary>
             An Array of objects containing the execution size of each leg of the RFQ.
             The ratio of the leg sizes needs to be the same as the RFQ.
@@ -7950,7 +8020,7 @@
             <param name="InstrumentId"></param>
             <param name="Size"></param>
         </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXQuoteLeg.#ctor(System.String,System.String)">
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXExecuteQuoteLeg.#ctor(System.String,System.String)">
             <summary>
             An Array of objects containing the execution size of each leg of the RFQ.
             The ratio of the leg sizes needs to be the same as the RFQ.
@@ -7959,11 +8029,21 @@
             <param name="InstrumentId"></param>
             <param name="Size"></param>
         </member>
-        <member name="P:OKX.Net.Objects.BlockTrading.OKXQuoteLeg.InstrumentId">
+        <member name="P:OKX.Net.Objects.BlockTrading.OKXExecuteQuoteLeg.InstrumentId">
             <summary></summary>
         </member>
-        <member name="P:OKX.Net.Objects.BlockTrading.OKXQuoteLeg.Size">
+        <member name="P:OKX.Net.Objects.BlockTrading.OKXExecuteQuoteLeg.Size">
             <summary></summary>
+        </member>
+        <member name="T:OKX.Net.Objects.BlockTrading.MMPConfigResponse">
+            <summary>
+            Represents the response for setting MMP configuration on OKX.
+            </summary>
+        </member>
+        <member name="M:OKX.Net.Objects.BlockTrading.MMPConfigResponse.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Represents the response for setting MMP configuration on OKX.
+            </summary>
         </member>
         <member name="T:OKX.Net.Objects.BlockTrading.OKXQuoteProduct">
             <summary>
@@ -7990,19 +8070,9 @@
             Represents a leg in the RFQ.
             </summary>
         </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXRFQLeg.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXRFQLeg.#ctor(System.String,System.Nullable{OKX.Net.Enums.TradeMode},System.String,System.Decimal,OKX.Net.Enums.OrderSide,System.Nullable{OKX.Net.Enums.PositionSide},System.String)">
             <summary>
             Represents a leg in the RFQ.
-            </summary>
-        </member>
-        <member name="T:OKX.Net.Objects.BlockTrading.OKXRFQQuoteLeg">
-            <summary>
-            Represents a leg in the Quote, which is a subclass of RFQLeg.
-            </summary>
-        </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXRFQQuoteLeg.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            Represents a leg in the Quote, which is a subclass of RFQLeg.
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.BlockTrading.OKXQuoteUpdate">
@@ -8010,7 +8080,7 @@
             Represents an OKX quote update.
             </summary>
         </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXQuoteUpdate.#ctor(System.DateTime,System.DateTime,System.String,System.String,System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXRFQQuoteLeg})">
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXQuoteUpdate.#ctor(System.DateTime,System.DateTime,OKX.Net.Objects.BlockTrading.RFQStatus,System.String,System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String,OKX.Net.Enums.OrderSide,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXCreateQuoteLeg})">
             <summary>
             Represents an OKX quote update.
             </summary>
@@ -8020,19 +8090,9 @@
             Represents an RFQ (Request For Quote) update.
             </summary>
         </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXRFQUpdate.#ctor(System.DateTime,System.DateTime,System.String,System.Collections.Generic.List{System.String},System.DateTime,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXRFQLeg})">
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXRFQUpdate.#ctor(System.DateTime,System.DateTime,OKX.Net.Objects.BlockTrading.RFQStatus,System.Collections.Generic.List{System.String},System.DateTime,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXCreateQuoteLeg})">
             <summary>
             Represents an RFQ (Request For Quote) update.
-            </summary>
-        </member>
-        <member name="T:OKX.Net.Objects.BlockTrading.OKXStructureBlockTradesUpdate">
-            <summary>
-            Represents an OKX structure block trade update.
-            </summary>
-        </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXStructureBlockTradesUpdate.#ctor(System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXBlockTradeLeg})">
-            <summary>
-            Represents an OKX structure block trade update.
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Core.OKXRestApiError">

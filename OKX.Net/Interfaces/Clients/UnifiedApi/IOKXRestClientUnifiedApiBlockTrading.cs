@@ -1,5 +1,5 @@
-﻿using OKX.Net.Enums;
-using OKX.Net.Objects.BlockTrading;
+﻿using OKX.Net.Objects.BlockTrading;
+using OKX.Net.Objects.Public;
 using OKX.Net.Objects.Trade;
 
 namespace OKX.Net.Interfaces.Clients.UnifiedApi;
@@ -7,7 +7,7 @@ namespace OKX.Net.Interfaces.Clients.UnifiedApi;
 /// <summary>
 /// Unified API trading endpoints
 /// </summary>
-public partial interface IOKXRestClientUnifiedApiBlockTrading
+public interface IOKXRestClientUnifiedApiBlockTrading
 {
     /// <summary>
     /// Retrieves the list of counterparties that the user is permitted to trade with.
@@ -15,7 +15,7 @@ public partial interface IOKXRestClientUnifiedApiBlockTrading
     /// </summary>
     /// <param name="ct"></param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXOrderAmendResponse>>> GetCounterpartiesAsync(CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXCounterparty>>> GetCounterpartiesAsync(CancellationToken ct = default);
 
 
     /// <summary>
@@ -68,7 +68,7 @@ public partial interface IOKXRestClientUnifiedApiBlockTrading
     /// Rate limit rule: UserID
     /// HTTP Request: POST /api/v5/rfq/cancel-rfq
     /// </remarks>
-    Task<WebCallResult<IEnumerable<OKXCancelRFQResponse>>> CancelRFQAsync(List<string>? rfqIds = null, List<string>? clientRfqIds = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXCancelRFQResponse>>> CancelMultipleRFQAsync(List<string>? rfqIds = null, List<string>? clientRfqIds = null, CancellationToken ct = default);
 
 
     /// <summary>
@@ -82,7 +82,7 @@ public partial interface IOKXRestClientUnifiedApiBlockTrading
     /// Rate limit rule: UserID
     /// HTTP Request: POST /api/v5/rfq/cancel-all-rfq
     /// </remarks>
-    Task<WebCallResult<DateTime>> CancelAllRFQAsync(CancellationToken ct = default);
+    Task<WebCallResult<OKXTime>> CancelAllRFQAsync(CancellationToken ct = default);
 
 
     /// <summary>
@@ -99,7 +99,7 @@ public partial interface IOKXRestClientUnifiedApiBlockTrading
     /// Rate limit rule: UserID
     /// HTTP Request: POST /api/v5/rfq/execute-quote
     /// </remarks>
-    Task<WebCallResult<OKXExecuteQuoteResponse>> ExecuteQuoteAsync(string rfqId, string quoteId, List<OKXQuoteLeg> legs = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXBlockTrade>> ExecuteQuoteAsync(string rfqId, string quoteId, List<OKXExecuteQuoteLeg> legs = null, CancellationToken ct = default);
 
 
     /// <summary>
@@ -126,7 +126,7 @@ public partial interface IOKXRestClientUnifiedApiBlockTrading
     /// Rate limit rule: UserID
     /// HTTP Request: POST /api/v5/rfq/maker-instrument-settings
     /// </remarks>
-    Task<WebCallResult<bool>> SetQuoteProductsAsync(List<OKXQuoteProduct> quoteProducts, CancellationToken ct = default);
+    Task<WebCallResult<OKXBoolean>> SetQuoteProductsAsync(List<OKXQuoteProduct> quoteProducts, CancellationToken ct = default);
 
 
     /// <summary>
@@ -140,7 +140,7 @@ public partial interface IOKXRestClientUnifiedApiBlockTrading
     /// Rate limit rule: UserID
     /// HTTP Request: POST /api/v5/rfq/mmp-reset
     /// </remarks>
-    Task<WebCallResult<DateTime>> ResetMMPStatusAsync(CancellationToken ct = default);
+    Task<WebCallResult<OKXTime>> ResetMMPStatusAsync(CancellationToken ct = default);
 
     /// <summary>
     /// Sets the MMP (Market Maker Protection) configuration. Only applicable to block trading makers.
@@ -160,6 +160,7 @@ public partial interface IOKXRestClientUnifiedApiBlockTrading
 
     /// <summary>
     /// Allows the user to quote an RFQ that they are a counterparty to. The user MUST quote the entire RFQ and not part of the legs or part of the quantity. Partial quoting is not allowed.
+    /// https://www.okx.com/docs-v5/en/?shell#block-trading-rest-api-create-quote
     /// </summary>
     /// <param name="rfqId">RFQ ID. This parameter is required.</param>
     /// <param name="clientQuoteId">Client-supplied Quote ID. A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.</param>
@@ -179,7 +180,7 @@ public partial interface IOKXRestClientUnifiedApiBlockTrading
         string rfqId,
         string? clientQuoteId,
         string quoteSide,
-        List<OKXRFQQuoteLeg> legs,
+        List<OKXCreateQuoteLeg> legs,
         string? tag = null,
         bool? anonymous = null,
         string? expiresIn = null,
@@ -187,6 +188,7 @@ public partial interface IOKXRestClientUnifiedApiBlockTrading
 
     /// <summary>
     /// Cancels an existing active Quote you have created in response to an RFQ.
+    /// https://www.okx.com/docs-v5/en/?shell#block-trading-rest-api-cancel-quote
     /// </summary>
     /// <param name="quoteId">Quote ID. This parameter is conditional.</param>
     /// <param name="clientQuoteId">Client-supplied Quote ID. Either quoteId or clientQuoteId is required. If both clientQuoteId and quoteId are passed, quoteId will be treated as the primary identifier. This parameter is conditional.</param>
@@ -206,6 +208,7 @@ public partial interface IOKXRestClientUnifiedApiBlockTrading
 
     /// <summary>
     /// Cancels one or multiple active Quote(s) in a single batch. Maximum 100 quote orders can be canceled per request.
+    /// https://www.okx.com/docs-v5/en/?shell#block-trading-rest-api-cancel-multiple-quotes
     /// </summary>
     /// <param name="quoteIds">List of Quote IDs. This parameter is conditional.</param>
     /// <param name="clientQuoteIds">List of client-supplied Quote IDs. This parameter is conditional. Either quoteIds or clientQuoteIds is required. If both are sent, quoteIds will be used as the primary identifier.</param>
@@ -223,6 +226,7 @@ public partial interface IOKXRestClientUnifiedApiBlockTrading
 
     /// <summary>
     /// Cancels all active Quotes.
+    /// https://www.okx.com/docs-v5/en/?shell#block-trading-rest-api-cancel-all-quotes
     /// </summary>
     /// <param name="ct">Cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
     /// <returns>A task representing the asynchronous operation, with a result of type <see cref="WebCallResult{CancelAllQuotesResponse}"/>.</returns>
@@ -231,10 +235,11 @@ public partial interface IOKXRestClientUnifiedApiBlockTrading
     /// Rate limit rule: UserID
     /// HTTP Request: POST /api/v5/rfq/cancel-all-quotes
     /// </remarks>
-    Task<WebCallResult<DateTime>> CancelAllQuotesAsync(CancellationToken ct = default);
+    Task<WebCallResult<OKXTime>> CancelAllQuotesAsync(CancellationToken ct = default);
 
     /// <summary>
     /// Retrieves details of RFQs that the user is a counterparty to (either as the creator or the receiver of the RFQ).
+    /// https://www.okx.com/docs-v5/en/?shell#block-trading-rest-api-get-rfqs
     /// </summary>
     /// <param name="rfqId">RFQ ID. This parameter is optional.</param>
     /// <param name="clientRfqId">Client-supplied RFQ ID. If both clientRfqId and rfqId are passed, rfqId will be treated as the primary identifier. This parameter is optional.</param>
@@ -252,10 +257,64 @@ public partial interface IOKXRestClientUnifiedApiBlockTrading
     Task<WebCallResult<IEnumerable<OKXRFQUpdate>>> GetRFQsAsync(
         string? rfqId = null,
         string? clientRfqId = null,
-        string? state = null,
+        RFQStatus? state = null,
         string? beginId = null,
         string? endId = null,
         string? limit = null,
         CancellationToken ct = default);
+
+    /// <summary>
+    /// Retrieves all quotes that the user is a counterparty to (either as the creator or the receiver).
+    /// https://www.okx.com/docs-v5/en/?shell#block-trading-rest-api-get-quotes
+    /// </summary>
+    /// <param name="rfqId">RFQ ID.</param>
+    /// <param name="clientRfqId">Client-supplied RFQ ID. If both clientRfqId and rfqId are passed, rfqId will be treated as primary identifier.</param>
+    /// <param name="quoteId">Quote ID.</param>
+    /// <param name="clientQuoteId">Client-supplied Quote ID. If both clientQuoteId and quoteId are passed, quoteId will be treated as primary identifier.</param>
+    /// <param name="state">The status of the quote (e.g., active, canceled, pending_fill, filled, expired, failed).</param>
+    /// <param name="beginId">Start quote ID for pagination.</param>
+    /// <param name="endId">End quote ID for pagination.</param>
+    /// <param name="limit">Number of results per request (default is 100, maximum is 100).</param>
+    /// <param name="ct">Cancellation token.</param>
+    /// <returns>Task representing the asynchronous operation, containing a list of quotes.</returns>
+    public Task<WebCallResult<IEnumerable<OKXQuoteUpdate>>> GetQuotesAsync(
+        string? rfqId = null,
+        string? clientRfqId = null,
+        string? quoteId = null,
+        string? clientQuoteId = null,
+        string? state = null,
+        string? beginId = null,
+        string? endId = null,
+        int? limit = null,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Retrieves the executed trades that the user is a counterparty to (either as the creator or the receiver).
+    /// https://www.okx.com/docs-v5/en/?shell#block-trading-rest-api-get-trades
+    /// </summary>
+    /// <param name="rfqId">RFQ ID.</param>
+    /// <param name="clientRfqId">Client-supplied RFQ ID. If both clientRfqId and rfqId are passed, rfqId will be treated as primary identifier.</param>
+    /// <param name="quoteId">Quote ID.</param>
+    /// <param name="blockTdId">Block trade ID.</param>
+    /// <param name="clientQuoteId">Client-supplied Quote ID. If both clientQuoteId and quoteId are passed, quoteId will be treated as primary identifier.</param>
+    /// <param name="beginId">The starting RFQ ID for pagination.</param>
+    /// <param name="endId">The last RFQ ID for pagination.</param>
+    /// <param name="beginTs">Filter trade execution time with a begin timestamp (UTC timezone). Unix timestamp format in milliseconds.</param>
+    /// <param name="endTs">Filter trade execution time with an end timestamp (UTC timezone). Unix timestamp format in milliseconds.</param>
+    /// <param name="limit">Number of results per request. The maximum is 100, which is also the default value.</param>
+    /// <param name="ct">Cancellation token.</param>
+    /// <returns>Task representing the asynchronous operation, containing a list of trades.</returns>
+    Task<WebCallResult<IEnumerable<OKXBlockTrade>>> GetTradesAsync(
+            string? rfqId = null,
+            string? clientRfqId = null,
+            string? quoteId = null,
+            string? blockTdId = null,
+            string? clientQuoteId = null,
+            string? beginId = null,
+            string? endId = null,
+            long? beginTs = null,
+            long? endTs = null,
+            int? limit = null,
+            CancellationToken ct = default);
 
 }

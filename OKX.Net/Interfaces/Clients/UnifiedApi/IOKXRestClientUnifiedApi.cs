@@ -30,7 +30,12 @@ public interface IOKXRestClientUnifiedApi : IRestApiClient
     IOKXRestClientUnifiedApiTrading Trading { get; }
 
     /// <summary>
-    /// Get the shared rest requests client. This interface is shared with other exchanges to allow for a common implementation for different exchanges.
+    /// Endpoints for BlockTrading(RFQ)
+    /// </summary>
+    IOKXRestClientUnifiedApiBlockTrading BlockTrading { get; }
+
+    /// <summary>
+    /// Get the shared rest requests client. This interface is shared with other exhanges to allow for a common implementation for different exchanges.
     /// </summary>
     IOKXRestClientUnifiedApiShared SharedClient { get; }
 }
