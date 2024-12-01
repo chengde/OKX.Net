@@ -1,4 +1,6 @@
-﻿namespace OKX.Net.Objects.BlockTrading;
+﻿using OKX.Net.Enums;
+
+namespace OKX.Net.Objects.BlockTrading;
 
 /// <summary>
 /// Represents a leg in the trade, which is a subclass of QuoteLeg.
@@ -8,19 +10,19 @@ public record OKXBlockTradeLeg(
     string InstrumentId, // Instrument ID, e.g., BTC-USDT-SWAP.
 
     [property: JsonPropertyName("px")]
-    string Price, // The price the leg executed.
+    decimal Price, // The price the leg executed.
 
     [property: JsonPropertyName("sz")]
-    string Size, // Size of the leg.
+    decimal Size, // Size of the leg.
 
     [property: JsonPropertyName("side")]
-    string Side, // The direction of the leg. Valid value can be buy or sell.
+    OrderSide Side, // The direction of the leg. Valid value can be buy or sell.
 
     [property: JsonPropertyName("tgtCcy")]
     string TargetCurrency, // Defines the unit of the size attribute.
 
     [property: JsonPropertyName("fee")]
-    string Fee, // Fee. Negative number represents the transaction fee charged by the platform. Positive fee represents rebate.
+    decimal Fee, // Fee. Negative number represents the transaction fee charged by the platform. Positive fee represents rebate.
 
     [property: JsonPropertyName("feeCcy")]
     string FeeCurrency, // Fee currency.

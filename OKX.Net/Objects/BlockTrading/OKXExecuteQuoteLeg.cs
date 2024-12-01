@@ -6,7 +6,7 @@
 /// </summary>
 /// <param name="InstrumentId"></param>
 /// <param name="Size"></param>
-public record OKXQuoteLeg
+public record OKXExecuteQuoteLeg
 (
     [property: JsonPropertyName("instId")]
     string InstrumentId, // Instrument ID, e.g., BTC-USDT-SWAP.

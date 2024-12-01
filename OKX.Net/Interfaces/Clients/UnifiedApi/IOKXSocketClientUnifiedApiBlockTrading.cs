@@ -32,6 +32,6 @@ public interface IOKXSocketClientUnifiedApiBlockTrading
     /// <param name="onData"></param>
     /// <param name="ct"></param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToStructureBlockTradesAsync(Action<DataEvent<OKXStructureBlockTradesUpdate>> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToStructureBlockTradesAsync(Action<DataEvent<OKXBlockTrade>> onData, CancellationToken ct = default);
 
 }

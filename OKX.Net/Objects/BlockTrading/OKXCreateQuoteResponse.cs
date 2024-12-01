@@ -11,7 +11,7 @@ public record OKXCreateQuoteResponse(
     DateTime LastUpdatedTime, // The timestamp the Quote was last updated, Unix timestamp format in milliseconds.
 
     [property: JsonPropertyName("state")]
-    string Status, // The status of the quote. Valid values can be active, canceled, pending_fill, filled, expired, or failed.
+    RFQStatus Status, // The status of the quote. Valid values can be active, canceled, pending_fill, filled, expired, or failed.
 
     [property: JsonPropertyName("reason")]
     string Reason, // Reasons of state. Valid values can be mmp_canceled.
@@ -41,5 +41,5 @@ public record OKXCreateQuoteResponse(
     string QuoteSide, // The trading direction of the Quote.
 
     [property: JsonPropertyName("legs")]
-    List<OKXRFQQuoteLeg> Legs // The legs of the Quote.
+    List<OKXCreateQuoteLeg> Legs // The legs of the Quote.
 );

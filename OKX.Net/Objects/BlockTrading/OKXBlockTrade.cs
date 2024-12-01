@@ -1,10 +1,10 @@
 ﻿namespace OKX.Net.Objects.BlockTrading;
 /// <summary>
-/// Represents a response for executing a quote on OKX.
+/// Represents an OKX structure block trade update.
 /// </summary>
-public record OKXExecuteQuoteResponse(
+public record OKXBlockTrade(
     [property: JsonPropertyName("cTime"), JsonConverter(typeof(DateTimeConverter))]
-    DateTime ExecutionTime, // The execution time for the trade. Unix timestamp in milliseconds.
+    DateTime ExecutionTime, // The time the trade was executed. Unix timestamp in milliseconds.
 
     [property: JsonPropertyName("rfqId")]
     string RfqId, // RFQ ID.
@@ -22,13 +22,13 @@ public record OKXExecuteQuoteResponse(
     string BlockTradeId, // Block trade ID.
 
     [property: JsonPropertyName("tag")]
-    string RfqTag, // RFQ tag.
+    string Tag, // Trade tag. The block trade will have the tag of the RFQ or Quote it corresponds to.
 
     [property: JsonPropertyName("tTraderCode")]
-    string TakerTraderCode, // A unique identifier of the taker.
+    string TakerTraderCode, // A unique identifier of the Taker. Empty if anonymous mode of RFQ is True.
 
     [property: JsonPropertyName("mTraderCode")]
-    string MakerTraderCode, // A unique identifier of the maker.
+    string MakerTraderCode, // A unique identifier of the Maker. Empty if anonymous mode of Quote is True.
 
     [property: JsonPropertyName("legs")]
     List<OKXBlockTradeLeg> Legs // Legs of the trade.

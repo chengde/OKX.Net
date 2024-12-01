@@ -1,4 +1,6 @@
-﻿namespace OKX.Net.Objects.BlockTrading;
+﻿using OKX.Net.Enums;
+
+namespace OKX.Net.Objects.BlockTrading;
 /// <summary>
 /// Represents an OKX quote update.
 /// </summary>
@@ -10,7 +12,7 @@ public record OKXQuoteUpdate(
     DateTime LastUpdatedTime, // The timestamp the Quote was updated latest, Unix timestamp format in milliseconds.
 
     [property: JsonPropertyName("state")]
-    string Status, // The status of the quote. Valid values can be active, canceled, filled, expired or failed.
+    RFQStatus Status, // The status of the quote. Valid values can be active, canceled, filled, expired or failed.
 
     [property: JsonPropertyName("reason")]
     string Reason, // Reasons of state. Valid values can be mmp_canceled.
@@ -31,14 +33,14 @@ public record OKXQuoteUpdate(
     string ClientQuoteId, // Client-supplied Quote ID. This attribute is treated as client sensitive information.
 
     [property: JsonPropertyName("tag")]
-    string QuoteTag, // Quote tag. The block trade associated with the Quote will have the same tag.
+    string Tag, // Quote tag. The block trade associated with the Quote will have the same tag.
 
     [property: JsonPropertyName("traderCode")]
     string MakerTraderCode, // A unique identifier of maker. Empty if anonymous mode of Quote is True.
 
     [property: JsonPropertyName("quoteSide")]
-    string QuoteSide, // Top level side of Quote. Its value can be buy or sell.
+    OrderSide QuoteSide, // Top level side of Quote. Its value can be buy or sell.
 
     [property: JsonPropertyName("legs")]
-    List<OKXRFQQuoteLeg> Legs // An array of objects containing each leg of the Quote.
+    List<OKXCreateQuoteLeg> Legs // An array of objects containing each leg of the Quote.
 );

@@ -23,6 +23,7 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
     public IOKXRestClientUnifiedApiAccount Account { get; private set; }
     public IOKXRestClientUnifiedApiExchangeData ExchangeData { get; private set; }
     public IOKXRestClientUnifiedApiTrading Trading { get; private set; }
+    public IOKXRestClientUnifiedApiBlockTrading BlockTrading { get; private set; }
     public IOKXRestClientUnifiedApiSubAccounts SubAccounts { get; private set; }
 
     public string ExchangeName => "OKX";
@@ -37,6 +38,7 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
         ExchangeData = new OKXRestClientUnifiedApiExchangeData(this);
         Trading = new OKXRestClientUnifiedApiTrading(this);
         SubAccounts = new OKXRestClientUnifiedApiSubAccounts(this);
+        BlockTrading = new OKXRestClientUnifiedApiBlockTrading(this);
 
         _ref = !string.IsNullOrEmpty(options.BrokerId) ? options.BrokerId! : "1425d83a94fbBCDE";
 

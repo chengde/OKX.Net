@@ -4,14 +4,14 @@
 /// </summary>
 public record OKXCancelQuoteResponse(
     [property: JsonPropertyName("quoteId")]
-string QuoteId, // Quote ID.
+    string QuoteId, // Quote ID.
 
     [property: JsonPropertyName("clQuoteId")]
-string ClientQuoteId, // Client-supplied Quote ID.
+    string ClientQuoteId, // Client-supplied Quote ID.
 
     [property: JsonPropertyName("sCode")]
-string StatusCode, // The code of the event execution result, 0 means success.
+    string StatusCode, // The code of the event execution result, 0 means success.
 
     [property: JsonPropertyName("sMsg")]
-string StatusMessage // Rejection message if the request is unsuccessful.
+    string StatusMessage // Rejection message if the request is unsuccessful.
 );
