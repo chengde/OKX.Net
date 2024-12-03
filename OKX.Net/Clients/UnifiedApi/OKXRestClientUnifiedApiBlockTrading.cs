@@ -138,7 +138,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     }
 
     /// <inheritdoc />
-    public async Task<WebCallResult<OKXCreateQuoteResponse>> CreateQuoteAsync(string rfqId, string? clientQuoteId, string quoteSide, List<OKXCreateQuoteLeg> legs, string? tag = null, bool? anonymous = null, string? expiresIn = null, CancellationToken ct = default)
+    public async Task<WebCallResult<OKXCreateQuoteResponse>> CreateQuoteAsync(string rfqId, string? clientQuoteId, OrderSide quoteSide, List<OKXCreateQuoteLeg> legs, string? tag = null, bool? anonymous = null, string? expiresIn = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection()
         {
