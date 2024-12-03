@@ -179,7 +179,7 @@ public interface IOKXRestClientUnifiedApiBlockTrading
     Task<WebCallResult<OKXCreateQuoteResponse>> CreateQuoteAsync(
         string rfqId,
         string? clientQuoteId,
-        string quoteSide,
+        Enums.OrderSide quoteSide,
         List<OKXCreateQuoteLeg> legs,
         string? tag = null,
         bool? anonymous = null,
