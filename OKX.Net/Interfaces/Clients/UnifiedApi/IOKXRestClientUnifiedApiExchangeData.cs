@@ -25,7 +25,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXBlockTicker>> GetBlockTickerAsync(string symbol, CancellationToken ct = default);
+    Task<WebCallResult<OKXMarketBlockTicker>> GetBlockTickerAsync(string symbol, CancellationToken ct = default);
 
     /// <summary>
     /// Get block tickers. Retrieve the latest block trading volume in the last 24 hours.

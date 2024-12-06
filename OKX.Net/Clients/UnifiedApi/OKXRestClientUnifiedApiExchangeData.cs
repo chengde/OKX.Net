@@ -270,7 +270,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXBlockTicker>> GetBlockTickerAsync(string symbol, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXMarketBlockTicker>> GetBlockTickerAsync(string symbol, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection
         {
@@ -279,7 +279,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/block-ticker", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendGetSingleAsync<OKXBlockTicker>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendGetSingleAsync<OKXMarketBlockTicker>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
