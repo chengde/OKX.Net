@@ -25,7 +25,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXBlockTicker>> GetBlockTickerAsync(string symbol, CancellationToken ct = default);
+    Task<WebCallResult<OKXMarketBlockTicker>> GetBlockTickerAsync(string symbol, CancellationToken ct = default);
 
     /// <summary>
     /// Get block tickers. Retrieve the latest block trading volume in the last 24 hours.
@@ -36,7 +36,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXBlockTicker>>> GetBlockTickersAsync(InstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXMarketBlockTicker>>> GetMarketBlockTickersAsync(InstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get block trades. Retrieve the recent block trading transactions of an instrument. Descending order by tradeId.
@@ -45,7 +45,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXBlockTrade>>> GetBlockTradesAsync(string symbol, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXPublicBlockTrade>>> GetPublicBlockTradesAsync(string symbol, CancellationToken ct = default);
 
     /// <summary>
     /// Get the estimated delivery price, which will only have a return value one hour before the delivery/exercise.

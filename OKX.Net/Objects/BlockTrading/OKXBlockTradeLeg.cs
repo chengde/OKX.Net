@@ -28,5 +28,5 @@ public record OKXBlockTradeLeg(
     string FeeCurrency, // Fee currency.
 
     [property: JsonPropertyName("tradeId")]
-    string TradeId // Last traded ID.
+    long TradeId // Last traded ID.
 ) ;

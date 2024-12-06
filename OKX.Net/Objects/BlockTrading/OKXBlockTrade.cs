@@ -30,6 +30,12 @@ public record OKXBlockTrade(
     [property: JsonPropertyName("mTraderCode")]
     string MakerTraderCode, // A unique identifier of the Maker. Empty if anonymous mode of Quote is True.
 
+    [property: JsonPropertyName("isSucessful")]
+    string IsSucessful, // Whether the trade is filled successfully.
+
+    [property: JsonPropertyName("errorCode")]
+    string ErrorCode, // Error code for unsuccessful trades.
+
     [property: JsonPropertyName("legs")]
     List<OKXBlockTradeLeg> Legs // Legs of the trade.
 );
