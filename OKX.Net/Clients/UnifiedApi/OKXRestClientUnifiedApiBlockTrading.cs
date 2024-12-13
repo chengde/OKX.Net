@@ -207,7 +207,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     }
 
     /// <inheritdoc />
-    public async Task<WebCallResult<IEnumerable<OKXQuoteUpdate>>> GetQuotesAsync(string? rfqId = null, string? clientRfqId = null, string? quoteId = null, string? clientQuoteId = null, string? state = null, string? beginId = null, string? endId = null, int? limit = null, CancellationToken ct = default)
+    public async Task<WebCallResult<IEnumerable<OKXQuoteUpdate>>> GetQuotesAsync(string? rfqId = null, string? clientRfqId = null, string? quoteId = null, string? clientQuoteId = null, QuoteStatus? state = null, string? beginId = null, string? endId = null, int? limit = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         parameters.AddOptional("rfqId", rfqId);

@@ -282,7 +282,7 @@ public interface IOKXRestClientUnifiedApiBlockTrading
         string? clientRfqId = null,
         string? quoteId = null,
         string? clientQuoteId = null,
-        string? state = null,
+        QuoteStatus? state = null,
         string? beginId = null,
         string? endId = null,
         int? limit = null,
