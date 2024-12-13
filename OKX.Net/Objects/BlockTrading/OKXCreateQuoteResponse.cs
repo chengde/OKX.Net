@@ -11,7 +11,7 @@ public record OKXCreateQuoteResponse(
     DateTime LastUpdatedTime, // The timestamp the Quote was last updated, Unix timestamp format in milliseconds.
 
     [property: JsonPropertyName("state")]
-    RFQStatus Status, // The status of the quote. Valid values can be active, canceled, pending_fill, filled, expired, or failed.
+    QuoteStatus Status, // The status of the quote. Valid values can be active, canceled, pending_fill, filled, expired, or failed.
 
     [property: JsonPropertyName("reason")]
     string Reason, // Reasons of state. Valid values can be mmp_canceled.

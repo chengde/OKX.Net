@@ -29,6 +29,9 @@ public record OKXRFQUpdate(
     [property: JsonPropertyName("flowType")]
     string FlowType, // Identify the type of the RFQ.
 
+    [property: JsonPropertyName("strategy")]
+    string Strategy, // Strategy Name
+
     [property: JsonPropertyName("traderCode")]
     string TakerTraderCode, // A unique identifier of the taker. Empty if anonymous mode is True.
 
