@@ -5036,7 +5036,7 @@
             Represents a leg in the Quote, which is a subclass of RFQLeg.
             </summary>
         </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXCreateQuoteLeg.#ctor(System.String,OKX.Net.Enums.TradeMode,System.String,System.Decimal,System.Decimal,OKX.Net.Enums.OrderSide,OKX.Net.Enums.PositionSide,System.String)">
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXCreateQuoteLeg.#ctor(System.String,System.Nullable{OKX.Net.Enums.TradeMode},System.String,System.Decimal,System.Decimal,OKX.Net.Enums.OrderSide,System.Nullable{OKX.Net.Enums.PositionSide},System.String)">
             <summary>
             Represents a leg in the Quote, which is a subclass of RFQLeg.
             </summary>

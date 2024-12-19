@@ -10,7 +10,7 @@ public record OKXCreateQuoteLeg(
     string InstrumentId, // Instrument ID, e.g., BTC-USDT-SWAP.
 
     [property: JsonPropertyName("tdMode")]
-    TradeMode TradeMode, // Trade mode. Margin mode: cross isolated. Non-Margin mode: cash.
+    TradeMode? TradeMode, // Trade mode. Margin mode: cross isolated. Non-Margin mode: cash.
 
     [property: JsonPropertyName("ccy")]
     string Currency, // Margin currency. Only applicable to cross MARGIN orders in Spot and futures mode.
@@ -25,7 +25,7 @@ public record OKXCreateQuoteLeg(
     OrderSide Side, // The direction of the leg. Valid values can be buy or sell.
 
     [property: JsonPropertyName("posSide")]
-    PositionSide PositionSide, // Position side. Default is net in the net mode. Only applicable to FUTURES/SWAP.
+    PositionSide? PositionSide, // Position side. Default is net in the net mode. Only applicable to FUTURES/SWAP.
 
     [property: JsonPropertyName("tgtCcy")]
     string TargetCurrency // Defines the unit of the size attribute. Only applicable to instType = SPOT.
