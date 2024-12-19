@@ -6,6 +6,9 @@ public record OKXBlockTrade(
     [property: JsonPropertyName("cTime"), JsonConverter(typeof(DateTimeConverter))]
     DateTime ExecutionTime, // The time the trade was executed. Unix timestamp in milliseconds.
 
+    [property: JsonPropertyName("strategy")]
+    string Strategy, // Strategy Name.
+
     [property: JsonPropertyName("rfqId")]
     string RfqId, // RFQ ID.
 
