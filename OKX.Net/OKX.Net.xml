@@ -4976,7 +4976,7 @@
             Represents an OKX structure block trade update.
             </summary>
         </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXBlockTrade.#ctor(System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXBlockTradeLeg})">
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXBlockTrade.#ctor(System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXBlockTradeLeg})">
             <summary>
             Represents an OKX structure block trade update.
             </summary>
