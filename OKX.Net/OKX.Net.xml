@@ -5130,9 +5130,24 @@
             Represents an OKX quote update.
             </summary>
         </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXQuoteUpdate.#ctor(System.DateTime,System.DateTime,OKX.Net.Objects.BlockTrading.QuoteStatus,System.String,System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String,OKX.Net.Enums.OrderSide,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXCreateQuoteLeg})">
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXQuoteUpdate.#ctor(System.DateTime,System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String,OKX.Net.Enums.OrderSide,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXCreateQuoteLeg})">
             <summary>
             Represents an OKX quote update.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.BlockTrading.OKXQuoteUpdate.LastUpdatedTime">
+            <summary>
+            The timestamp the Quote was updated latest, Unix timestamp format in milliseconds.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.BlockTrading.OKXQuoteUpdate.Status">
+            <summary>
+            The status of the quote. Valid values can be active, canceled, filled, expired or failed.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.BlockTrading.OKXQuoteUpdate.Reason">
+            <summary>
+            Reasons of state. Valid values can be mmp_canceled.
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.BlockTrading.OKXRFQUpdate">
@@ -5140,9 +5155,19 @@
             Represents an RFQ (Request For Quote) update.
             </summary>
         </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXRFQUpdate.#ctor(System.DateTime,System.DateTime,OKX.Net.Objects.BlockTrading.RFQStatus,System.Collections.Generic.List{System.String},System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXCreateQuoteLeg})">
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXRFQUpdate.#ctor(System.DateTime,System.Collections.Generic.List{System.String},System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXCreateQuoteLeg})">
             <summary>
             Represents an RFQ (Request For Quote) update.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.BlockTrading.OKXRFQUpdate.LastUpdatedTime">
+            <summary>
+            The timestamp the RFQ was updated latest, Unix timestamp format in milliseconds.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.BlockTrading.OKXRFQUpdate.Status">
+            <summary>
+            The status of the RFQ. Valid values can be active, canceled, filled, expired or failed.
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Core.OKXRestApiError">

@@ -8,12 +8,6 @@ public record OKXRFQUpdate(
     [property: JsonPropertyName("cTime"), JsonConverter(typeof(DateTimeConverter))]
     DateTime CreationTime, // The timestamp the RFQ was created, Unix timestamp format in milliseconds.
 
-    [property: JsonPropertyName("uTime"), JsonConverter(typeof(DateTimeConverter))]
-    DateTime LastUpdatedTime, // The timestamp the RFQ was updated latest, Unix timestamp format in milliseconds.
-
-    [property: JsonPropertyName("state")]
-    RFQStatus Status, // The status of the RFQ. Valid values can be active, canceled, filled, expired or failed.
-
     [property: JsonPropertyName("counterparties")]
     List<string> CounterpartiesTraderCodes, // The list of counterparties traderCode the RFQ was broadcasted to.
 
@@ -43,5 +37,19 @@ public record OKXRFQUpdate(
 
     [property: JsonPropertyName("legs")]
     List<OKXCreateQuoteLeg> Legs // An array of objects containing each leg of the RFQ.
-);
+)
+{
+    /// <summary>
+    /// The timestamp the RFQ was updated latest, Unix timestamp format in milliseconds.
+    /// </summary>
+    [property: JsonPropertyName("uTime"), JsonConverter(typeof(DateTimeConverter))]
+    public DateTime LastUpdatedTime { get; set; } 
+
+    /// <summary>
+    /// The status of the RFQ. Valid values can be active, canceled, filled, expired or failed.
+    /// </summary>
+    [property: JsonPropertyName("state")]
+    public RFQStatus Status { get; set; } 
+
+};
 
