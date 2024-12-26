@@ -8,15 +8,6 @@ public record OKXQuoteUpdate(
     [property: JsonPropertyName("cTime"), JsonConverter(typeof(DateTimeConverter))]
     DateTime CreationTime, // The timestamp the Quote was created, Unix timestamp format in milliseconds.
 
-    [property: JsonPropertyName("uTime"), JsonConverter(typeof(DateTimeConverter))]
-    DateTime LastUpdatedTime, // The timestamp the Quote was updated latest, Unix timestamp format in milliseconds.
-
-    [property: JsonPropertyName("state")]
-    QuoteStatus Status, // The status of the quote. Valid values can be active, canceled, filled, expired or failed.
-
-    [property: JsonPropertyName("reason")]
-    string Reason, // Reasons of state. Valid values can be mmp_canceled.
-
     [property: JsonPropertyName("validUntil"), JsonConverter(typeof(DateTimeConverter))]
     DateTime ExpiryTime, // The timestamp the Quote expires. Unix timestamp format in milliseconds.
 
@@ -43,4 +34,23 @@ public record OKXQuoteUpdate(
 
     [property: JsonPropertyName("legs")]
     List<OKXCreateQuoteLeg> Legs // An array of objects containing each leg of the Quote.
-);
+)
+{
+    /// <summary>
+    /// The timestamp the Quote was updated latest, Unix timestamp format in milliseconds.
+    /// </summary>
+    [property: JsonPropertyName("uTime"), JsonConverter(typeof(DateTimeConverter))]
+    public DateTime LastUpdatedTime { get; set; }
+
+    /// <summary>
+    /// The status of the quote. Valid values can be active, canceled, filled, expired or failed.
+    /// </summary>
+    [property: JsonPropertyName("state")]
+    public QuoteStatus Status { get; set; }
+    /// <summary>
+    /// Reasons of state. Valid values can be mmp_canceled.
+    /// </summary>
+    [property: JsonPropertyName("reason")]
+    public string? Reason { get; set; }
+
+};
