@@ -29,7 +29,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
         return result;
     }
     /// <inheritdoc />
-    public async Task<WebCallResult<OKXCreateRFQResponse>> CreateRFQAsync(List<string> counterparties, List<OKXRfqLeg> legs, bool? anonymous = null, string? clientRfqId = null, string? tag = null, bool? allowPartialExecution = null, CancellationToken ct = default)
+    public async Task<WebCallResult<OKXRfq>> CreateRFQAsync(List<string> counterparties, List<OKXRfqLeg> legs, bool? anonymous = null, string? clientRfqId = null, string? tag = null, bool? allowPartialExecution = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection() 
         {
@@ -43,7 +43,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"/api/v5/rfq/create-rfq", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendGetSingleAsync<OKXCreateRFQResponse>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendGetSingleAsync<OKXRfq>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
