@@ -4,7 +4,7 @@ namespace OKX.Net.Objects.BlockTrading;
 /// <summary>
 /// Represents an OKX quote update.
 /// </summary>
-public record OKXQuoteUpdate(
+public record OKXRFQQuote(
     [property: JsonPropertyName("cTime"), JsonConverter(typeof(DateTimeConverter))]
     DateTime CreationTime, // The timestamp the Quote was created, Unix timestamp format in milliseconds.
 

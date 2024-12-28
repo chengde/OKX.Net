@@ -2750,7 +2750,7 @@
             <param name="ct"></param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiBlockTrading.SubscribeToQuotesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.BlockTrading.OKXQuoteUpdate}},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiBlockTrading.SubscribeToQuotesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.BlockTrading.OKXRFQQuote}},System.Threading.CancellationToken)">
             <summary>
             Retrieve the Quotes sent or received by the user. Data will be pushed whenever the user sends or receives a Quote.
             <para><a href="https://www.okx.com/docs-v5/en/?shell#block-trading-websocket-private-channel-quotes-channel" /></para>
@@ -5041,16 +5041,6 @@
             Represents a leg in the Quote, which is a subclass of RFQLeg.
             </summary>
         </member>
-        <member name="T:OKX.Net.Objects.BlockTrading.OKXCreateQuoteResponse">
-            <summary>
-            Represents the details of a quote.
-            </summary>
-        </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXCreateQuoteResponse.#ctor(System.DateTime,System.DateTime,OKX.Net.Objects.BlockTrading.QuoteStatus,System.String,System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXCreateQuoteLeg})">
-            <summary>
-            Represents the details of a quote.
-            </summary>
-        </member>
         <member name="T:OKX.Net.Objects.BlockTrading.OKXCreateRFQResponse">
             <summary>
             Represents a response for creating an RFQ on OKX.
@@ -5125,27 +5115,27 @@
             Represents a leg in the RFQ.
             </summary>
         </member>
-        <member name="T:OKX.Net.Objects.BlockTrading.OKXQuoteUpdate">
+        <member name="T:OKX.Net.Objects.BlockTrading.OKXRFQQuote">
             <summary>
             Represents an OKX quote update.
             </summary>
         </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXQuoteUpdate.#ctor(System.DateTime,System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String,OKX.Net.Enums.OrderSide,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXCreateQuoteLeg})">
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXRFQQuote.#ctor(System.DateTime,System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String,OKX.Net.Enums.OrderSide,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXCreateQuoteLeg})">
             <summary>
             Represents an OKX quote update.
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.BlockTrading.OKXQuoteUpdate.LastUpdatedTime">
+        <member name="P:OKX.Net.Objects.BlockTrading.OKXRFQQuote.LastUpdatedTime">
             <summary>
             The timestamp the Quote was updated latest, Unix timestamp format in milliseconds.
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.BlockTrading.OKXQuoteUpdate.Status">
+        <member name="P:OKX.Net.Objects.BlockTrading.OKXRFQQuote.Status">
             <summary>
             The status of the quote. Valid values can be active, canceled, filled, expired or failed.
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.BlockTrading.OKXQuoteUpdate.Reason">
+        <member name="P:OKX.Net.Objects.BlockTrading.OKXRFQQuote.Reason">
             <summary>
             Reasons of state. Valid values can be mmp_canceled.
             </summary>
