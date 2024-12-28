@@ -5,7 +5,7 @@ namespace OKX.Net.Objects.BlockTrading;
 /// <summary>
 /// Represents a leg in the Quote, which is a subclass of RFQLeg.
 /// </summary>
-public record OKXCreateQuoteLeg(
+public record OKXQuoteLeg(
     [property: JsonPropertyName("instId")]
     string InstrumentId, // Instrument ID, e.g., BTC-USDT-SWAP.
 

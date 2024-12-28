@@ -14,7 +14,7 @@ public interface IOKXSocketClientUnifiedApiBlockTrading
     /// <param name="onData"></param>
     /// <param name="ct"></param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToRFQsAsync(Action<DataEvent<OKXRFQUpdate>> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToRFQsAsync(Action<DataEvent<OKXRfq>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve the Quotes sent or received by the user. Data will be pushed whenever the user sends or receives a Quote.
@@ -23,7 +23,7 @@ public interface IOKXSocketClientUnifiedApiBlockTrading
     /// <param name="onData"></param>
     /// <param name="ct"></param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToQuotesAsync(Action<DataEvent<OKXRFQQuote>> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToQuotesAsync(Action<DataEvent<OKXQuote>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve user's block trades data. All the legs in the same block trade are included in the same update. Data will be pushed whenever there is a block trade that the user is a counterparty for.

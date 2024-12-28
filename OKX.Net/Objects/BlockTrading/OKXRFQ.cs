@@ -4,7 +4,7 @@ namespace OKX.Net.Objects.BlockTrading;
 /// <summary>
 /// Represents an RFQ (Request For Quote) update.
 /// </summary>
-public record OKXRFQUpdate(
+public record OKXRfq(
     [property: JsonPropertyName("cTime"), JsonConverter(typeof(DateTimeConverter))]
     DateTime CreationTime, // The timestamp the RFQ was created, Unix timestamp format in milliseconds.
 
@@ -36,7 +36,7 @@ public record OKXRFQUpdate(
     bool AllowPartialExecution, // Whether the RFQ can be partially filled provided that the shape of legs stays the same.
 
     [property: JsonPropertyName("legs")]
-    List<OKXCreateQuoteLeg> Legs // An array of objects containing each leg of the RFQ.
+    List<OKXQuoteLeg> Legs // An array of objects containing each leg of the RFQ.
 )
 {
     /// <summary>

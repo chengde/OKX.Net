@@ -4,7 +4,7 @@ namespace OKX.Net.Objects.BlockTrading;
 /// <summary>
 /// Represents a leg in the RFQ.
 /// </summary>
-public record OKXRFQLeg(
+public record OKXRfqLeg(
     [property: JsonPropertyName("instId")]
     string InstrumentId, // Instrument ID, e.g., BTC-USDT-SWAP.
 
