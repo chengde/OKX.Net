@@ -29,7 +29,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
         return result;
     }
     /// <inheritdoc />
-    public async Task<WebCallResult<OKXCreateRFQResponse>> CreateRFQAsync(List<string> counterparties, List<OKXRFQLeg> legs, bool? anonymous = null, string? clientRfqId = null, string? tag = null, bool? allowPartialExecution = null, CancellationToken ct = default)
+    public async Task<WebCallResult<OKXCreateRFQResponse>> CreateRFQAsync(List<string> counterparties, List<OKXRfqLeg> legs, bool? anonymous = null, string? clientRfqId = null, string? tag = null, bool? allowPartialExecution = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection() 
         {
@@ -138,7 +138,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     }
 
     /// <inheritdoc />
-    public async Task<WebCallResult<OKXRFQQuote>> CreateQuoteAsync(string rfqId, string? clientQuoteId, OrderSide quoteSide, List<OKXCreateQuoteLeg> legs, string? tag = null, bool? anonymous = null, string? expiresIn = null, CancellationToken ct = default)
+    public async Task<WebCallResult<OKXQuote>> CreateQuoteAsync(string rfqId, string? clientQuoteId, OrderSide quoteSide, List<OKXQuoteLeg> legs, string? tag = null, bool? anonymous = null, string? expiresIn = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection()
         {
@@ -153,7 +153,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"/api/v5/rfq/create-quote", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(50, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendGetSingleAsync<OKXRFQQuote>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendGetSingleAsync<OKXQuote>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -191,7 +191,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     }
 
     /// <inheritdoc />
-    public async Task<WebCallResult<IEnumerable<OKXRFQUpdate>>> GetRFQsAsync(string? rfqId = null, string? clientRfqId = null, RFQStatus? state = null, string? beginId = null, string? endId = null, string? limit = null, CancellationToken ct = default)
+    public async Task<WebCallResult<IEnumerable<OKXRfq>>> GetRFQsAsync(string? rfqId = null, string? clientRfqId = null, RFQStatus? state = null, string? beginId = null, string? endId = null, string? limit = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         parameters.AddOptional("rfqId", rfqId);
@@ -203,11 +203,11 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"/api/v5/rfq/rfqs", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(2, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXRFQUpdate>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<IEnumerable<OKXRfq>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public async Task<WebCallResult<IEnumerable<OKXRFQQuote>>> GetQuotesAsync(string? rfqId = null, string? clientRfqId = null, string? quoteId = null, string? clientQuoteId = null, QuoteStatus? state = null, string? beginId = null, string? endId = null, int? limit = null, CancellationToken ct = default)
+    public async Task<WebCallResult<IEnumerable<OKXQuote>>> GetQuotesAsync(string? rfqId = null, string? clientRfqId = null, string? quoteId = null, string? clientQuoteId = null, QuoteStatus? state = null, string? beginId = null, string? endId = null, int? limit = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         parameters.AddOptional("rfqId", rfqId);
@@ -221,7 +221,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"/api/v5/rfq/quotes", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(2, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXRFQQuote>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<IEnumerable<OKXQuote>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

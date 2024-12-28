@@ -4,7 +4,7 @@ namespace OKX.Net.Objects.BlockTrading;
 /// <summary>
 /// Represents an OKX quote update.
 /// </summary>
-public record OKXRFQQuote(
+public record OKXQuote(
     [property: JsonPropertyName("cTime"), JsonConverter(typeof(DateTimeConverter))]
     DateTime CreationTime, // The timestamp the Quote was created, Unix timestamp format in milliseconds.
 
@@ -33,7 +33,7 @@ public record OKXRFQQuote(
     OrderSide QuoteSide, // Top level side of Quote. Its value can be buy or sell.
 
     [property: JsonPropertyName("legs")]
-    List<OKXCreateQuoteLeg> Legs // An array of objects containing each leg of the Quote.
+    List<OKXQuoteLeg> Legs // An array of objects containing each leg of the Quote.
 )
 {
     /// <summary>

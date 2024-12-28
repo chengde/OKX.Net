@@ -31,7 +31,7 @@ public interface IOKXRestClientUnifiedApiBlockTrading
     /// <returns>A task representing the asynchronous operation, with a result of type <see cref="WebCallResult{OKXOrderAmendResponse}"/>.</returns>
     Task<WebCallResult<OKXCreateRFQResponse>> CreateRFQAsync(
         List<string> counterparties,
-        List<OKXRFQLeg> legs,
+        List<OKXRfqLeg> legs,
         bool? anonymous = null,
         string? clientRfqId = null,
         string? tag = null,
@@ -176,11 +176,11 @@ public interface IOKXRestClientUnifiedApiBlockTrading
     /// Rate limit rule: UserID
     /// HTTP Request: POST /api/v5/rfq/create-quote
     /// </remarks>
-    Task<WebCallResult<OKXRFQQuote>> CreateQuoteAsync(
+    Task<WebCallResult<OKXQuote>> CreateQuoteAsync(
         string rfqId,
         string? clientQuoteId,
         Enums.OrderSide quoteSide,
-        List<OKXCreateQuoteLeg> legs,
+        List<OKXQuoteLeg> legs,
         string? tag = null,
         bool? anonymous = null,
         string? expiresIn = null,
@@ -254,7 +254,7 @@ public interface IOKXRestClientUnifiedApiBlockTrading
     /// Rate limit rule: UserID
     /// HTTP Request: GET /api/v5/rfq/rfqs
     /// </remarks>
-    Task<WebCallResult<IEnumerable<OKXRFQUpdate>>> GetRFQsAsync(
+    Task<WebCallResult<IEnumerable<OKXRfq>>> GetRFQsAsync(
         string? rfqId = null,
         string? clientRfqId = null,
         RFQStatus? state = null,
@@ -277,7 +277,7 @@ public interface IOKXRestClientUnifiedApiBlockTrading
     /// <param name="limit">Number of results per request (default is 100, maximum is 100).</param>
     /// <param name="ct">Cancellation token.</param>
     /// <returns>Task representing the asynchronous operation, containing a list of quotes.</returns>
-    public Task<WebCallResult<IEnumerable<OKXRFQQuote>>> GetQuotesAsync(
+    public Task<WebCallResult<IEnumerable<OKXQuote>>> GetQuotesAsync(
         string? rfqId = null,
         string? clientRfqId = null,
         string? quoteId = null,
