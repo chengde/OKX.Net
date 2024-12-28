@@ -33,9 +33,9 @@ internal class OKXSocketClientUnifiedApiBlockTrading : IOKXSocketClientUnifiedAp
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
     }
 
-    public async Task<CallResult<UpdateSubscription>> SubscribeToQuotesAsync(Action<DataEvent<OKXQuoteUpdate>> onData, CancellationToken ct = default)
+    public async Task<CallResult<UpdateSubscription>> SubscribeToQuotesAsync(Action<DataEvent<OKXRFQQuote>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXQuoteUpdate>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXRFQQuote>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
