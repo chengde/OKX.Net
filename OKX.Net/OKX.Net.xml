@@ -5031,16 +5031,6 @@
             RFQ Counterparty
             </summary>
         </member>
-        <member name="T:OKX.Net.Objects.BlockTrading.OKXCreateRFQResponse">
-            <summary>
-            Represents a response for creating an RFQ on OKX.
-            </summary>
-        </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXCreateRFQResponse.#ctor(System.DateTime,System.DateTime,OKX.Net.Objects.BlockTrading.RFQStatus,System.Collections.Generic.List{System.String},System.DateTime,System.String,System.String,System.Boolean,System.String,System.String,System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXQuoteLeg})">
-            <summary>
-            Represents a response for creating an RFQ on OKX.
-            </summary>
-        </member>
         <member name="T:OKX.Net.Objects.BlockTrading.OKXExecuteQuoteLeg">
             <summary>
             An Array of objects containing the execution size of each leg of the RFQ.

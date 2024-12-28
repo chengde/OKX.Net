@@ -29,7 +29,7 @@ public interface IOKXRestClientUnifiedApiBlockTrading
     /// <param name="allowPartialExecution">Whether the RFQ can be partially filled provided that the shape of legs stays the same. Valid values are true or false. Default is false.</param>
     /// <param name="ct">Cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
     /// <returns>A task representing the asynchronous operation, with a result of type <see cref="WebCallResult{OKXOrderAmendResponse}"/>.</returns>
-    Task<WebCallResult<OKXCreateRFQResponse>> CreateRFQAsync(
+    Task<WebCallResult<OKXRfq>> CreateRFQAsync(
         List<string> counterparties,
         List<OKXRfqLeg> legs,
         bool? anonymous = null,
