@@ -4896,6 +4896,28 @@
             Affiliate code
             </summary>
         </member>
+        <member name="T:OKX.Net.Objects.BlockTrading.EmptyStringToNullConverter">
+            <summary>
+            Converts an empty string to null.
+            </summary>
+        </member>
+        <member name="M:OKX.Net.Objects.BlockTrading.EmptyStringToNullConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            
+            </summary>
+            <param name="reader"></param>
+            <param name="typeToConvert"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Objects.BlockTrading.EmptyStringToNullConverter.Write(System.Text.Json.Utf8JsonWriter,System.String,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <param name="value"></param>
+            <param name="options"></param>
+        </member>
         <member name="T:OKX.Net.Objects.BlockTrading.RFQStatus">
             <summary>
             Represents the status of the RFQ 
@@ -5095,7 +5117,7 @@
             Represents a leg in the Quote, which is a subclass of RFQLeg.
             </summary>
         </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXQuoteLeg.#ctor(System.String,System.Nullable{OKX.Net.Enums.TradeMode},System.String,System.Decimal,System.Decimal,OKX.Net.Enums.OrderSide,System.Nullable{OKX.Net.Enums.PositionSide},System.String)">
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXQuoteLeg.#ctor(System.String,System.Nullable{OKX.Net.Enums.TradeMode},System.String,System.Decimal,System.Decimal,OKX.Net.Enums.OrderSide,System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuantityAsset})">
             <summary>
             Represents a leg in the Quote, which is a subclass of RFQLeg.
             </summary>
@@ -5145,7 +5167,7 @@
             Represents a leg in the RFQ.
             </summary>
         </member>
-        <member name="M:OKX.Net.Objects.BlockTrading.OKXRfqLeg.#ctor(System.String,System.Nullable{OKX.Net.Enums.TradeMode},System.String,System.Decimal,OKX.Net.Enums.OrderSide,System.Nullable{OKX.Net.Enums.PositionSide},System.String)">
+        <member name="M:OKX.Net.Objects.BlockTrading.OKXRfqLeg.#ctor(System.String,System.Nullable{OKX.Net.Enums.TradeMode},System.String,System.Decimal,OKX.Net.Enums.OrderSide,System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuantityAsset})">
             <summary>
             Represents a leg in the RFQ.
             </summary>

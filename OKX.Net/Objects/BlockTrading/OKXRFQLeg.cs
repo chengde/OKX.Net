@@ -24,5 +24,5 @@ public record OKXRfqLeg(
     PositionSide? PositionSide, // Position side. Default is net in the net mode. Only applicable to FUTURES/SWAP.
 
     [property: JsonPropertyName("tgtCcy")]
-    string? TargetCurrency // Defines the unit of the “size” attribute. Only applicable to instType = SPOT.
+    QuantityAsset? TargetCurrency // Defines the unit of the “size” attribute. Only applicable to instType = SPOT.
 );
