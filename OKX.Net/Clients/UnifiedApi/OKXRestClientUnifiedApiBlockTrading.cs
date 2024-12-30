@@ -51,7 +51,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     {
         var parameters = new ParameterCollection();
         parameters.AddOptional("rfqId", rfqId);
-        parameters.AddOptional("clientRfqId", clientRfqId);
+        parameters.AddOptional("clRfqId", clientRfqId);
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"/api/v5/rfq/cancel-rfq", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
@@ -63,7 +63,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     {
         var parameters = new ParameterCollection();
         parameters.AddOptional("rfqIds", rfqIds);
-        parameters.AddOptional("clientRfqIds", clientRfqIds);
+        parameters.AddOptional("clRfqIds", clientRfqIds);
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"/api/v5/rfq/cancel-batch-rfqs", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(2, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
@@ -144,7 +144,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
         {
             { "rfqId", rfqId}
         };
-        parameters.AddOptional("clientQuoteId", clientQuoteId);
+        parameters.AddOptional("clQuoteId", clientQuoteId);
         parameters.AddOptional("quoteSide", quoteSide);
         parameters.AddOptional("legs", legs);
         parameters.AddOptional("tag", tag);
@@ -161,7 +161,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     {
         var parameters = new ParameterCollection();
         parameters.AddOptional("quoteId", quoteId);
-        parameters.AddOptional("clientQuoteId", clientQuoteId);
+        parameters.AddOptional("clQuoteId", clientQuoteId);
         parameters.AddOptional("rfqId", rfqId);
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"/api/v5/rfq/cancel-quote", OKXExchange.RateLimiter.EndpointGate, 1, true,
@@ -174,7 +174,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     {
         var parameters = new ParameterCollection();
         parameters.AddOptional("quoteIds", quoteIds);
-        parameters.AddOptional("clientQuoteIds", clientQuoteIds);
+        parameters.AddOptional("clQuoteIds", clientQuoteIds);
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"/api/v5/rfq/cancel-batch-quotes", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(2, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
@@ -195,7 +195,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     {
         var parameters = new ParameterCollection();
         parameters.AddOptional("rfqId", rfqId);
-        parameters.AddOptional("clientRfqId", clientRfqId);
+        parameters.AddOptional("clRfqId", clientRfqId);
         parameters.AddOptional("state", state);
         parameters.AddOptional("beginId", beginId);
         parameters.AddOptional("endId", endId);
@@ -211,9 +211,9 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     {
         var parameters = new ParameterCollection();
         parameters.AddOptional("rfqId", rfqId);
-        parameters.AddOptional("clientRfqId", clientRfqId);
+        parameters.AddOptional("clRfqId", clientRfqId);
         parameters.AddOptional("quoteId", quoteId);
-        parameters.AddOptional("clientQuoteId", clientQuoteId);
+        parameters.AddOptional("clQuoteId", clientQuoteId);
         parameters.AddOptional("state", state);
         parameters.AddOptional("beginId", beginId);
         parameters.AddOptional("endId", endId);
@@ -231,10 +231,10 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     {
         var parameters = new ParameterCollection();
         parameters.AddOptional("rfqId", rfqId);
-        parameters.AddOptional("clientRfqId", clientRfqId);
+        parameters.AddOptional("clRfqId", clientRfqId);
         parameters.AddOptional("quoteId", quoteId);
         parameters.AddOptional("blockTdId", blockTdId);
-        parameters.AddOptional("clientQuoteId", clientQuoteId);
+        parameters.AddOptional("clQuoteId", clientQuoteId);
         parameters.AddOptional("beginId", beginId);
         parameters.AddOptional("endId", endId);
         parameters.AddOptional("beginTs", beginTs);
