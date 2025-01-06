@@ -21,7 +21,7 @@ public record OKXQuoteProductDetail(
     string InstrumentFamily, // Instrument family. Required for FUTURES, OPTION and SWAP only.
 
     [property: JsonPropertyName("instId")]
-    string InstrumentId, // Instrument ID. Required for SPOT only.
+    string? InstrumentId, // Instrument ID. Required for SPOT only.
 
     [property: JsonPropertyName("maxBlockSz")]
     string MaxBlockSize, // Max trade quantity for the product(s).
