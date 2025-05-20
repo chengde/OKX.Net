@@ -5381,6 +5381,12 @@
             Block Trading data and queries
             </summary>
         </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApi.AddSystemSubscription(CryptoExchange.Net.Sockets.SystemSubscription)">
+            <summary>
+            Add a system subscription to the client. This is used for system messages like notice, Connection Count.
+            </summary>
+            <param name="systemSubscription"></param>
+        </member>
         <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiAccount">
             <summary>
             Unified API

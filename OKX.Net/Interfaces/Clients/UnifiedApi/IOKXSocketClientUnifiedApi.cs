@@ -1,4 +1,6 @@
-﻿namespace OKX.Net.Interfaces.Clients.UnifiedApi;
+﻿using CryptoExchange.Net.Sockets;
+
+namespace OKX.Net.Interfaces.Clients.UnifiedApi;
 
 /// <summary>
 /// Unified API
@@ -29,4 +31,9 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// Block Trading data and queries
     /// </summary>
     IOKXSocketClientUnifiedApiBlockTrading BlockTrading { get; }
+    /// <summary>
+    /// Add a system subscription to the client. This is used for system messages like notice, Connection Count.
+    /// </summary>
+    /// <param name="systemSubscription"></param>
+    void AddSystemSubscription(SystemSubscription systemSubscription);
 }
