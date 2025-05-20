@@ -167,4 +167,9 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
         deflateStream.CopyTo(decompressedStream);
         return new ReadOnlyMemory<byte>(decompressedStream.GetBuffer(), 0, (int)decompressedStream.Length);
     }
+
+    public new void AddSystemSubscription(SystemSubscription systemSubscription)
+    {
+        base.AddSystemSubscription(systemSubscription);
+    }
 }
