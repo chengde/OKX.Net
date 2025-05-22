@@ -6037,6 +6037,91 @@
             Data timestamp
             </summary>
         </member>
+        <member name="T:OKX.Net.Objects.Market.OKXBlockTicker">
+            <summary>
+            Block ticker
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXBlockTicker.InstrumentType">
+            <summary>
+            Instrument type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXBlockTicker.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXBlockTicker.Volume">
+            <summary>
+            Quote Volume
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXBlockTicker.BaseVolume">
+            <summary>
+            Base Volume
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXBlockTicker.Time">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Market.OKXBlockTrade">
+            <summary>
+            Trade
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXBlockTrade.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXBlockTrade.TradeId">
+            <summary>
+            Trade id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXBlockTrade.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXBlockTrade.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXBlockTrade.ImpliedVolatility">
+            <summary>
+            Implied volatility (Options only)
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXBlockTrade.IndexPrice">
+            <summary>
+            Index price (Options only)
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXBlockTrade.ForwardPrice">
+            <summary>
+            Forward price (Options only)
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXBlockTrade.MarkPrice">
+            <summary>
+            Mark price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXBlockTrade.Side">
+            <summary>
+            Side
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXBlockTrade.Time">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Market.OKXIndexComponents">
             <summary>
             Index info
@@ -6199,36 +6284,6 @@
             false represents that it is uncompleted, true represents that it is completed.
             </summary>
         </member>
-        <member name="T:OKX.Net.Objects.Market.OKXMarketBlockTicker">
-            <summary>
-            Block ticker
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXMarketBlockTicker.InstrumentType">
-            <summary>
-            Instrument type
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXMarketBlockTicker.Symbol">
-            <summary>
-            Symbol
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXMarketBlockTicker.Volume">
-            <summary>
-            Quote Volume
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXMarketBlockTicker.BaseVolume">
-            <summary>
-            Base Volume
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXMarketBlockTicker.Time">
-            <summary>
-            Timestamp
-            </summary>
-        </member>
         <member name="T:OKX.Net.Objects.Market.OKXMiniKline">
             <summary>
             Candlestick/Kline data
@@ -6358,61 +6413,6 @@
         <member name="P:OKX.Net.Objects.Market.OKXOrderBookRow.OrdersCount">
             <summary>
             The number of orders at the price
-            </summary>
-        </member>
-        <member name="T:OKX.Net.Objects.Market.OKXPublicBlockTrade">
-            <summary>
-            Trade
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXPublicBlockTrade.Symbol">
-            <summary>
-            Symbol
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXPublicBlockTrade.TradeId">
-            <summary>
-            Trade id
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXPublicBlockTrade.Price">
-            <summary>
-            Price
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXPublicBlockTrade.Quantity">
-            <summary>
-            Quantity
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXPublicBlockTrade.ImpliedVolatility">
-            <summary>
-            Implied volatility (Options only)
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXPublicBlockTrade.IndexPrice">
-            <summary>
-            Index price (Options only)
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXPublicBlockTrade.ForwardPrice">
-            <summary>
-            Forward price (Options only)
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXPublicBlockTrade.MarkPrice">
-            <summary>
-            Mark price
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXPublicBlockTrade.Side">
-            <summary>
-            Side
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXPublicBlockTrade.Time">
-            <summary>
-            Timestamp
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Market.OKXTicker">
