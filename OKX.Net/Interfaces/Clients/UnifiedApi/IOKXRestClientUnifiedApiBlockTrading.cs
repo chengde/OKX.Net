@@ -15,7 +15,7 @@ public interface IOKXRestClientUnifiedApiBlockTrading
     /// </summary>
     /// <param name="ct"></param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXCounterparty>>> GetCounterpartiesAsync(CancellationToken ct = default);
+    Task<WebCallResult<OKXCounterparty[]>> GetCounterpartiesAsync(CancellationToken ct = default);
 
 
     /// <summary>
@@ -68,7 +68,7 @@ public interface IOKXRestClientUnifiedApiBlockTrading
     /// Rate limit rule: UserID
     /// HTTP Request: POST /api/v5/rfq/cancel-rfq
     /// </remarks>
-    Task<WebCallResult<IEnumerable<OKXCancelRFQResponse>>> CancelMultipleRFQAsync(List<string>? rfqIds = null, List<string>? clientRfqIds = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXCancelRFQResponse[]>> CancelMultipleRFQAsync(List<string>? rfqIds = null, List<string>? clientRfqIds = null, CancellationToken ct = default);
 
 
     /// <summary>
@@ -107,13 +107,13 @@ public interface IOKXRestClientUnifiedApiBlockTrading
     /// https://www.okx.com/docs-v5/en/?shell#block-trading-rest-api-get-quote-products
     /// </summary>
     /// <param name="ct">Cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-    /// <returns>A task representing the asynchronous operation, with a result of type <see cref="IEnumerable<OKXQuoteProduct>"/>.</returns>
+    /// <returns>A task representing the asynchronous operation, with a result of type <see cref="OKXQuoteProduct"/>.</returns>
     /// <remarks>
     /// Rate Limit: 5 requests per 2 seconds
     /// Rate limit rule: UserID
     /// HTTP Request: GET /api/v5/rfq/maker-instrument-settings
     /// </remarks>
-    Task<WebCallResult<IEnumerable<OKXQuoteProduct>>> GetQuoteProductsAsync(CancellationToken ct = default);
+    Task<WebCallResult<OKXQuoteProduct[]>> GetQuoteProductsAsync(CancellationToken ct = default);
 
     /// <summary>
     /// Customizes the products which makers want to quote and receive RFQs for, and the corresponding price and size limit.
@@ -219,7 +219,7 @@ public interface IOKXRestClientUnifiedApiBlockTrading
     /// Rate limit rule: UserID
     /// HTTP Request: POST /api/v5/rfq/cancel-batch-quotes
     /// </remarks>
-    Task<WebCallResult<IEnumerable<OKXCancelQuoteResponse>>> CancelMultipleQuotesAsync(
+    Task<WebCallResult<OKXCancelQuoteResponse[]>> CancelMultipleQuotesAsync(
         List<string>? quoteIds = null,
         List<string>? clientQuoteIds = null,
         CancellationToken ct = default);
@@ -248,13 +248,13 @@ public interface IOKXRestClientUnifiedApiBlockTrading
     /// <param name="endId">End RFQ ID the request to end with. Pagination of data to return records earlier than the requested RFQ ID, not including endId. This parameter is optional.</param>
     /// <param name="limit">Number of results per request. The maximum is 100, which is also the default value. This parameter is optional.</param>
     /// <param name="ct">Cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-    /// <returns>A task representing the asynchronous operation, with a result of type <see cref="WebCallResult{IEnumerable{RFQDetails}}"/>.</returns>
+    /// <returns>A task representing the asynchronous operation, with a result of type <see cref="WebCallResult{OKXRfq}"/>.</returns>
     /// <remarks>
     /// Rate Limit: 2 requests per 2 seconds
     /// Rate limit rule: UserID
     /// HTTP Request: GET /api/v5/rfq/rfqs
     /// </remarks>
-    Task<WebCallResult<IEnumerable<OKXRfq>>> GetRFQsAsync(
+    Task<WebCallResult<OKXRfq[]>> GetRFQsAsync(
         string? rfqId = null,
         string? clientRfqId = null,
         RFQStatus? state = null,
@@ -277,7 +277,7 @@ public interface IOKXRestClientUnifiedApiBlockTrading
     /// <param name="limit">Number of results per request (default is 100, maximum is 100).</param>
     /// <param name="ct">Cancellation token.</param>
     /// <returns>Task representing the asynchronous operation, containing a list of quotes.</returns>
-    public Task<WebCallResult<IEnumerable<OKXQuote>>> GetQuotesAsync(
+    public Task<WebCallResult<OKXQuote[]>> GetQuotesAsync(
         string? rfqId = null,
         string? clientRfqId = null,
         string? quoteId = null,
@@ -304,7 +304,7 @@ public interface IOKXRestClientUnifiedApiBlockTrading
     /// <param name="limit">Number of results per request. The maximum is 100, which is also the default value.</param>
     /// <param name="ct">Cancellation token.</param>
     /// <returns>Task representing the asynchronous operation, containing a list of trades.</returns>
-    Task<WebCallResult<IEnumerable<OKXBlockTrade>>> GetTradesAsync(
+    Task<WebCallResult<OKXBlockTrade[]>> GetTradesAsync(
             string? rfqId = null,
             string? clientRfqId = null,
             string? quoteId = null,

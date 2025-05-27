@@ -1044,6 +1044,11 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.NullableTradeMode">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.TransferStatus">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -1524,6 +1529,106 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.MMPConfigResponse">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.MMPConfigResponseArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXBlockTrade">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXBlockTradeArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXBlockTradeLeg">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXCancelQuoteResponse">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXCancelQuoteResponseArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXCounterparty">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXCounterpartyArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXQuote">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXQuoteArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXQuoteLeg">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXQuoteProduct">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXQuoteProductArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXQuoteProductDetail">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRfq">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRfqArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRfqLeg">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.QuoteStatus">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.RFQStatus">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponse">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -1674,6 +1779,41 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseMMPConfigResponseArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXBlockTradeArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXCancelQuoteResponseArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXCounterpartyArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXQuoteArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXQuoteProductArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXRfqArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXAssetArray">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -1750,11 +1890,6 @@
             </summary>
         </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXBlockTickerArray">
-            <summary>
-            Defines the source generated JSON serialization contract metadata for a given type.
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXBlockTradeArray">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -1925,6 +2060,11 @@
             </summary>
         </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXAlgoOrderResponseArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXAlgoOrderResponse">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -2190,16 +2330,6 @@
             </summary>
         </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXBlockTickerArray">
-            <summary>
-            Defines the source generated JSON serialization contract metadata for a given type.
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXBlockTrade">
-            <summary>
-            Defines the source generated JSON serialization contract metadata for a given type.
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXBlockTradeArray">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -2689,6 +2819,31 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXSocketUpdateOKXBlockTrade">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXSocketUpdateOKXQuote">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXSocketUpdateOKXQuoteArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXSocketUpdateOKXRfq">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXSocketUpdateOKXRfqArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXSocketUpdateOKXDepositUpdateArray">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -3134,12 +3289,52 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.ListOKXBlockTradeLeg">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.ListOKXQuoteLeg">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.ListOKXQuoteProduct">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.ListOKXQuoteProductDetail">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.ListOKXRfqLeg">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.ListOKXSocketArgs">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.ListOKXSocketAuthArgs">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.ListOKXAlgoOrderRequest">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.ListOKXOrderCancelRequest">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.ListString">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -4545,7 +4740,19 @@
             HTTP Request: POST /api/v5/rfq/execute-quote
             </remarks>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiBlockTrading.GetQuoteProductsAsync(System.Threading.CancellationToken)" -->
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiBlockTrading.GetQuoteProductsAsync(System.Threading.CancellationToken)">
+            <summary>
+            Retrieves the products which makers want to quote and receive RFQs for, and the corresponding price and size limit.
+            https://www.okx.com/docs-v5/en/?shell#block-trading-rest-api-get-quote-products
+            </summary>
+            <param name="ct">Cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+            <returns>A task representing the asynchronous operation, with a result of type <see cref="T:OKX.Net.Objects.BlockTrading.OKXQuoteProduct"/>.</returns>
+            <remarks>
+            Rate Limit: 5 requests per 2 seconds
+            Rate limit rule: UserID
+            HTTP Request: GET /api/v5/rfq/maker-instrument-settings
+            </remarks>
+        </member>
         <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiBlockTrading.SetQuoteProductsAsync(System.Collections.Generic.List{OKX.Net.Objects.BlockTrading.OKXQuoteProduct},System.Threading.CancellationToken)">
             <summary>
             Customizes the products which makers want to quote and receive RFQs for, and the corresponding price and size limit.
@@ -4650,7 +4857,7 @@
             <param name="endId">End RFQ ID the request to end with. Pagination of data to return records earlier than the requested RFQ ID, not including endId. This parameter is optional.</param>
             <param name="limit">Number of results per request. The maximum is 100, which is also the default value. This parameter is optional.</param>
             <param name="ct">Cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-            <returns>A task representing the asynchronous operation, with a result of type <see cref="!:WebCallResult&lt;IEnumerable&lt;RFQDetails&gt;&gt;"/>.</returns>
+            <returns>A task representing the asynchronous operation, with a result of type <see cref="T:CryptoExchange.Net.Objects.WebCallResult`1"/>.</returns>
             <remarks>
             Rate Limit: 2 requests per 2 seconds
             Rate limit rule: UserID
@@ -11232,6 +11439,50 @@
         <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTransfer.TransferId">
             <summary>
             Transfer id
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.System.OKXNotice">
+            <summary>
+            Represents a notice message from OKX.
+            </summary>
+            [SerializationModel]
+        </member>
+        <member name="P:OKX.Net.Objects.System.OKXNotice.Event">
+            <summary> event </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.System.OKXNotice.Code">
+            <summary> code </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.System.OKXNotice.Message">
+            <summary> message</summary>
+        </member>
+        <member name="P:OKX.Net.Objects.System.OKXNotice.Channel">
+            <summary> channel </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.System.OKXNotice.ConnectionCount">
+            <summary> Connection Count</summary>
+        </member>
+        <member name="P:OKX.Net.Objects.System.OKXNotice.ConnectionId">
+            <summary> Connection Id</summary>
+        </member>
+        <member name="T:OKX.Net.Objects.System.OKXNoticeSubscription">
+            <summary>
+            Subscription for OKX notice messages.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.System.OKXNoticeSubscription.ListenerIdentifiers">
+            <summary>
+            Identifiers for the listeners that this subscription will handle.
+            </summary>
+        </member>
+        <member name="M:OKX.Net.Objects.System.OKXNoticeSubscription.#ctor(Microsoft.Extensions.Logging.ILogger,System.Action{OKX.Net.Objects.System.OKXNotice})">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:OKX.Net.Objects.System.OKXNoticeSubscription.HandleMessage(CryptoExchange.Net.Sockets.SocketConnection,CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.System.OKXNotice})">
+            <summary>
+            Handles a message received from the socket connection.
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.System.OKXStatus">

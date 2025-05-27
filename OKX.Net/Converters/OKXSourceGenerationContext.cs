@@ -11,9 +11,26 @@ using OKX.Net.Objects.SubAccount;
 using OKX.Net.Objects.System;
 using OKX.Net.Objects.Trade;
 using OKX.Net.Objects.Trading;
-
 namespace OKX.Net.Converters
 {
+    [JsonSerializable(typeof(List<string>))]
+    [JsonSerializable(typeof(OKXRestApiResponse<OKX.Net.Objects.BlockTrading.OKXCounterparty[]>))]
+    [JsonSerializable(typeof(OKXRestApiResponse<OKX.Net.Objects.BlockTrading.OKXBlockTrade[]>))]
+    [JsonSerializable(typeof(OKXRestApiResponse<OKX.Net.Objects.BlockTrading.OKXQuoteProduct[]>))]
+    [JsonSerializable(typeof(OKXRestApiResponse<OKX.Net.Objects.BlockTrading.OKXRfq[]>))]
+    [JsonSerializable(typeof(OKXRestApiResponse<OKX.Net.Objects.BlockTrading.MMPConfigResponse[]>))]
+    [JsonSerializable(typeof(OKXRestApiResponse<OKX.Net.Objects.BlockTrading.OKXQuote[]>))]
+    [JsonSerializable(typeof(OKXRestApiResponse<OKX.Net.Objects.BlockTrading.OKXCancelQuoteResponse[]>))]
+    [JsonSerializable(typeof(List<OKX.Net.Objects.BlockTrading.OKXQuoteProduct>))]
+    [JsonSerializable(typeof(List<OKX.Net.Objects.BlockTrading.OKXRfqLeg>))]
+    [JsonSerializable(typeof(OKXSocketUpdate<OKX.Net.Objects.BlockTrading.OKXQuote>[]))]
+    [JsonSerializable(typeof(OKXSocketUpdate<OKX.Net.Objects.BlockTrading.OKXRfq>[]))]
+    [JsonSerializable(typeof(OKXSocketUpdate<OKX.Net.Objects.BlockTrading.OKXBlockTrade>))]
+    [JsonSerializable(typeof(OKXSocketUpdate<OKXNotice>))]
+    [JsonSerializable(typeof(List<OKXOrderCancelRequest>))]
+    [JsonSerializable(typeof(List<OKXAlgoOrderRequest>))]
+    [JsonSerializable(typeof(OKXRestApiResponse<OKXAlgoOrderResponse>))]
+
     [JsonSerializable(typeof(OKXSocketResponse<OKXOrderPlaceResponse>))]
     [JsonSerializable(typeof(OKXSocketResponse<OKXOrderCancelResponse>))]
     [JsonSerializable(typeof(OKXSocketResponse<OKXOrderAmendResponse>))]

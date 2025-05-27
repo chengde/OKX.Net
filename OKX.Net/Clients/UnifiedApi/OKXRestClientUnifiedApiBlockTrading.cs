@@ -2,11 +2,7 @@
 using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.BlockTrading;
-using OKX.Net.Objects.Core;
-using OKX.Net.Objects.Trade;
 using OKX.Net.Objects.Public;
-using System.Security.Cryptography;
-using System.Threading;
 
 namespace OKX.Net.Clients.UnifiedApi;
 internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlockTrading
@@ -20,12 +16,12 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     }
 
     /// <inheritdoc />
-    public async Task<WebCallResult<IEnumerable<OKXCounterparty >>> GetCounterpartiesAsync(CancellationToken ct = default)
+    public async Task<WebCallResult<OKXCounterparty[]>> GetCounterpartiesAsync(CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         var request = _definitions.GetOrCreate(HttpMethod.Get, "/api/v5/rfq/counterparties", OKXExchange.RateLimiter.EndpointGate, 1, authenticated :true,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        var result = await _baseClient.SendAsync<IEnumerable<OKXCounterparty>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendAsync<OKXCounterparty[]>(request, parameters, ct).ConfigureAwait(false);
         return result;
     }
     /// <inheritdoc />
@@ -59,7 +55,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     }
 
     /// <inheritdoc />
-    public async Task<WebCallResult<IEnumerable<OKXCancelRFQResponse>>> CancelMultipleRFQAsync(List<string>? rfqIds = null, List<string>? clientRfqIds = null, CancellationToken ct = default)
+    public async Task<WebCallResult<OKXCancelRFQResponse[]>> CancelMultipleRFQAsync(List<string>? rfqIds = null, List<string>? clientRfqIds = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         parameters.AddOptional("rfqIds", rfqIds);
@@ -67,7 +63,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"/api/v5/rfq/cancel-batch-rfqs", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(2, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXCancelRFQResponse>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXCancelRFQResponse[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -94,11 +90,11 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     }
 
     /// <inheritdoc />
-    public async Task<WebCallResult<IEnumerable<OKXQuoteProduct>>> GetQuoteProductsAsync(CancellationToken ct = default)
+    public async Task<WebCallResult<OKXQuoteProduct[]>> GetQuoteProductsAsync(CancellationToken ct = default)
     {
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"/api/v5/rfq/maker-instrument-settings", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXQuoteProduct>>(request, null, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXQuoteProduct[]>(request, null, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -170,7 +166,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     }
 
     /// <inheritdoc />
-    public async Task<WebCallResult<IEnumerable<OKXCancelQuoteResponse>>> CancelMultipleQuotesAsync(List<string>? quoteIds = null, List<string>? clientQuoteIds = null, CancellationToken ct = default)
+    public async Task<WebCallResult<OKXCancelQuoteResponse[]>> CancelMultipleQuotesAsync(List<string>? quoteIds = null, List<string>? clientQuoteIds = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         parameters.AddOptional("quoteIds", quoteIds);
@@ -178,7 +174,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"/api/v5/rfq/cancel-batch-quotes", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(2, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXCancelQuoteResponse>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXCancelQuoteResponse[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -191,7 +187,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     }
 
     /// <inheritdoc />
-    public async Task<WebCallResult<IEnumerable<OKXRfq>>> GetRFQsAsync(string? rfqId = null, string? clientRfqId = null, RFQStatus? state = null, string? beginId = null, string? endId = null, string? limit = null, CancellationToken ct = default)
+    public async Task<WebCallResult<OKXRfq[]>> GetRFQsAsync(string? rfqId = null, string? clientRfqId = null, RFQStatus? state = null, string? beginId = null, string? endId = null, string? limit = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         parameters.AddOptional("rfqId", rfqId);
@@ -203,11 +199,11 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"/api/v5/rfq/rfqs", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(2, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXRfq>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXRfq[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public async Task<WebCallResult<IEnumerable<OKXQuote>>> GetQuotesAsync(string? rfqId = null, string? clientRfqId = null, string? quoteId = null, string? clientQuoteId = null, QuoteStatus? state = null, string? beginId = null, string? endId = null, int? limit = null, CancellationToken ct = default)
+    public async Task<WebCallResult<OKXQuote[]>> GetQuotesAsync(string? rfqId = null, string? clientRfqId = null, string? quoteId = null, string? clientQuoteId = null, QuoteStatus? state = null, string? beginId = null, string? endId = null, int? limit = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         parameters.AddOptional("rfqId", rfqId);
@@ -221,11 +217,11 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"/api/v5/rfq/quotes", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(2, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXQuote>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXQuote[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public async Task<WebCallResult<IEnumerable<OKXBlockTrade>>> GetTradesAsync(string? rfqId = null, string? clientRfqId = null, string? quoteId = null, 
+    public async Task<WebCallResult<OKXBlockTrade[]>> GetTradesAsync(string? rfqId = null, string? clientRfqId = null, string? quoteId = null, 
         string? blockTdId = null, string? clientQuoteId = null, string? beginId = null, string? endId = null,
         long? beginTs = null, long? endTs = null, int? limit = null, CancellationToken ct = default)
     {
@@ -243,6 +239,6 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"/api/v5/rfq/trades", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXBlockTrade>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXBlockTrade[]>(request, parameters, ct).ConfigureAwait(false);
     }
 }

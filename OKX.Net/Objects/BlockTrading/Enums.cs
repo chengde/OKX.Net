@@ -4,6 +4,7 @@ namespace OKX.Net.Objects.BlockTrading;
 /// <summary>
 /// Represents the status of the RFQ 
 /// </summary>
+[JsonConverter(typeof(EnumConverter<RFQStatus>))]
 public enum RFQStatus
 {
     /// <summary>
@@ -52,6 +53,7 @@ public enum RFQStatus
 /// <summary>
 /// Represents the status of the RFQQuote
 /// </summary>
+[JsonConverter(typeof(EnumConverter<QuoteStatus>))]
 public enum QuoteStatus
 {
     /// <summary>
