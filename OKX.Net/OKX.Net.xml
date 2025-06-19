@@ -2819,6 +2819,11 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXSocketUpdateOKXBlockTradeArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXSocketUpdateOKXBlockTrade">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.

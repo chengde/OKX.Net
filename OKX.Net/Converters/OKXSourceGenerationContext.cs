@@ -26,6 +26,7 @@ namespace OKX.Net.Converters
     [JsonSerializable(typeof(OKXSocketUpdate<OKX.Net.Objects.BlockTrading.OKXQuote>[]))]
     [JsonSerializable(typeof(OKXSocketUpdate<OKX.Net.Objects.BlockTrading.OKXRfq>[]))]
     [JsonSerializable(typeof(OKXSocketUpdate<OKX.Net.Objects.BlockTrading.OKXBlockTrade>))]
+    [JsonSerializable(typeof(OKXSocketUpdate<OKX.Net.Objects.BlockTrading.OKXBlockTrade[]>))]
     [JsonSerializable(typeof(OKXSocketUpdate<OKXNotice>))]
     [JsonSerializable(typeof(List<OKXOrderCancelRequest>))]
     [JsonSerializable(typeof(List<OKXAlgoOrderRequest>))]
