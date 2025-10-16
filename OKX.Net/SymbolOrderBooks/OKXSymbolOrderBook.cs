@@ -97,12 +97,12 @@ namespace OKX.Net.SymbolOrderBooks
         {
             if (!_initialSnapshotDone || _snapshots)
             {
-                SetInitialOrderBook(data.Data.Time.Ticks, data.Data.Bids, data.Data.Asks);
+                SetInitialOrderBook(data.Data.SequenceId??0, data.Data.Bids, data.Data.Asks);
                 _initialSnapshotDone = true;
             }
             else
             {
-                UpdateOrderBook(data.Data.Time.Ticks, data.Data.Bids, data.Data.Asks);
+                UpdateOrderBook(data.Data.SequenceId??0, data.Data.Bids, data.Data.Asks);
                 //AddChecksum((int)data.Data.Checksum!);
             }
         }
