@@ -39,6 +39,8 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
     public IOKXSocketClientUnifiedApiExchangeData ExchangeData { get; }
     /// <inheritdoc />
     public IOKXSocketClientUnifiedApiTrading Trading { get; }
+    /// <inheritdoc />
+    public IOKXSocketClientUnifiedApiBlockTrading BlockTrading { get; }
 
     private readonly bool _demoTrading;
 
@@ -50,6 +52,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
         Account = new OKXSocketClientUnifiedApiAccount(logger, this);
         ExchangeData = new OKXSocketClientUnifiedApiExchangeData(logger, this);
         Trading = new OKXSocketClientUnifiedApiTrading(logger, this);
+        BlockTrading = new OKXSocketClientUnifiedApiBlockTrading(logger, this);
 
         ProcessUnparsableMessages = true;
 
@@ -193,5 +196,10 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
         using var deflateStream = new GZipStream(new MemoryStream(data.ToArray()), CompressionMode.Decompress);
         deflateStream.CopyTo(decompressedStream);
         return new ReadOnlyMemory<byte>(decompressedStream.GetBuffer(), 0, (int)decompressedStream.Length);
+    }
+
+    void IOKXSocketClientUnifiedApi.AddSystemSubscription(SystemSubscription systemSubscription)
+    {
+        base.AddSystemSubscription(systemSubscription);
     }
 }

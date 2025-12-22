@@ -218,13 +218,15 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXTrade[]>>((receiveTime, originalData, data) =>
         {
-            onData(
-                new DataEvent<OKXTrade>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
-                    .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                    .WithDataTimestamp(data.Data.First().Time)
-                    .WithStreamId(data.Arg.Channel)
-                    .WithSymbol(data.Arg.Symbol)
-                );
+            foreach (var trade in data.Data)
+            {
+                onData(
+                    new DataEvent<OKXTrade>(OKXExchange.ExchangeName, trade, receiveTime, originalData)
+                        .WithDataTimestamp(trade.Time)
+                        .WithStreamId(data.Arg.Channel)
+                        .WithSymbol(data.Arg.Symbol)
+                    );
+            }
         });
 
         var subscription = new OKXSubscription<OKXTrade[]>(_logger, _client, new List<OKXSocketArgs>
@@ -244,13 +246,14 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXTrade[]>>((receiveTime, originalData, data) =>
         {
-            onData(
-                new DataEvent<OKXTrade>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
-                    .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                    .WithDataTimestamp(data.Data.First().Time)
-                    .WithStreamId(data.Arg.Channel)
-                    .WithSymbol(data.Arg.Symbol)
-                );
+            foreach (var trade in data.Data)
+            {
+                onData(
+                    new DataEvent<OKXTrade>(OKXExchange.ExchangeName, trade, receiveTime, originalData)
+                        .WithStreamId(data.Arg.Channel)
+                        .WithSymbol(trade.Symbol)
+                    );
+            }
         });
 
         var subscription = new OKXSubscription<OKXTrade[]>(_logger,
@@ -643,5 +646,32 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
             }, internalHandler, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
+    }
+    /// <inheritdoc />
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAllTradeUpdatesAsync(string symbol, Action<DataEvent<OKXTrade>> onData, CancellationToken ct = default)
+    {
+         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXTrade[]>>((receiveTime, originalData, data) =>
+        {
+            foreach (var trade in data.Data)
+            {
+                onData(
+                    new DataEvent<OKXTrade>(OKXExchange.ExchangeName, trade, receiveTime, originalData)
+                        .WithStreamId(data.Arg.Channel)
+                        .WithDataTimestamp(trade.Time)
+                        .WithSymbol(trade.Symbol)
+                    );
+            }
+        });
+
+        var subscription = new OKXSubscription<OKXTrade[]>(_logger, _client, new List<OKXSocketArgs>
+            {
+                new OKXSocketArgs
+                {
+                    Channel = "trades-all",
+                    Symbol = symbol
+                }
+            }, internalHandler, false);
+
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using CryptoExchange.Net.Interfaces.Clients;
-
+using CryptoExchange.Net.Sockets.Default;
 namespace OKX.Net.Interfaces.Clients.UnifiedApi;
 
 /// <summary>
@@ -27,4 +27,13 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// </summary>
     /// <see cref="IOKXSocketClientUnifiedApiTrading"/>
     IOKXSocketClientUnifiedApiTrading Trading { get; }
+    /// <summary>
+    /// Block Trading data and queries
+    /// </summary>
+    IOKXSocketClientUnifiedApiBlockTrading BlockTrading { get; }
+    /// <summary>
+    /// Add a system subscription to the client. This is used for system messages like notice, Connection Count.
+    /// </summary>
+    /// <param name="systemSubscription"></param>
+    void AddSystemSubscription(SystemSubscription systemSubscription);
 }

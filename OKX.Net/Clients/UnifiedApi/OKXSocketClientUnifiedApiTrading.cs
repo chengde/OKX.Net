@@ -331,13 +331,14 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXAlgoOrderUpdate[]>>((receiveTime, originalData, data) =>
         {
+            foreach (var update in data.Data)
+            {
             onData(
-                new DataEvent<OKXAlgoOrderUpdate>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
-                    .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                    .WithDataTimestamp(data.Data.First().UpdateTime)
+                new DataEvent<OKXAlgoOrderUpdate>(OKXExchange.ExchangeName, update, receiveTime, originalData)
                     .WithStreamId(data.Arg.Channel)
-                    .WithSymbol(data.Arg.Symbol)
+                    .WithSymbol(update.Symbol)
                 );
+            }
         });
 
         var subscription = new OKXSubscription<OKXAlgoOrderUpdate[]>(_logger, _client, new List<OKXSocketArgs>
