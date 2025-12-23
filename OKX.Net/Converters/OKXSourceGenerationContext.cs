@@ -1,4 +1,3 @@
-
 using OKX.Net.Clients.UnifiedApi;
 using OKX.Net.Objects.Account;
 using OKX.Net.Objects.Affiliate;
@@ -24,9 +23,8 @@ namespace OKX.Net.Converters
     [JsonSerializable(typeof(OKXRestApiResponse<OKX.Net.Objects.BlockTrading.OKXCancelQuoteResponse[]>))]
     [JsonSerializable(typeof(List<OKX.Net.Objects.BlockTrading.OKXQuoteProduct>))]
     [JsonSerializable(typeof(List<OKX.Net.Objects.BlockTrading.OKXRfqLeg>))]
-    [JsonSerializable(typeof(OKXSocketUpdate<OKX.Net.Objects.BlockTrading.OKXQuote>[]))]
-    [JsonSerializable(typeof(OKXSocketUpdate<OKX.Net.Objects.BlockTrading.OKXRfq>[]))]
-    [JsonSerializable(typeof(OKXSocketUpdate<OKX.Net.Objects.BlockTrading.OKXBlockTrade>))]
+    [JsonSerializable(typeof(OKXSocketUpdate<OKX.Net.Objects.BlockTrading.OKXQuote[]>))]
+    [JsonSerializable(typeof(OKXSocketUpdate<OKX.Net.Objects.BlockTrading.OKXRfq[]>))]
     [JsonSerializable(typeof(OKXSocketUpdate<OKX.Net.Objects.BlockTrading.OKXBlockTrade[]>))]
     [JsonSerializable(typeof(OKXSocketUpdate<OKXNotice>))]
     [JsonSerializable(typeof(List<OKXOrderCancelRequest>))]
