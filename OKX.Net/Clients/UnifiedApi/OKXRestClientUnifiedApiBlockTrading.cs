@@ -75,7 +75,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
     }
 
     /// <inheritdoc />
-    public async Task<WebCallResult<OKXBlockTrade>> ExecuteQuoteAsync(string rfqId, string quoteId, List<OKXExecuteQuoteLeg> legs, CancellationToken ct = default)
+    public async Task<WebCallResult<OKXBlockTrade[]>> ExecuteQuoteAsync(string rfqId, string quoteId, List<OKXExecuteQuoteLeg> legs, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection()
         {
@@ -86,7 +86,7 @@ internal class OKXRestClientUnifiedApiBlockTrading : IOKXRestClientUnifiedApiBlo
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"/api/v5/rfq/execute-quote", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(2, TimeSpan.FromSeconds(3), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendGetSingleAsync<OKXBlockTrade>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendGetSingleAsync<OKXBlockTrade[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

@@ -73,13 +73,15 @@ internal class OKXSocketClientUnifiedApiBlockTrading : IOKXSocketClientUnifiedAp
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXBlockTrade[]>>((receiveTime, originalData, data) =>
         {
-            onData(
-                new DataEvent<OKXBlockTrade>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
-                    .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                    .WithDataTimestamp(data.Data.First().ExecutionTime)
-                    .WithStreamId(data.Arg.Channel)
-                    .WithSymbol(data.Arg.Symbol)
-                );
+            foreach (var blockTrade in data.Data)
+            {
+                onData(
+                    new DataEvent<OKXBlockTrade>(OKXExchange.ExchangeName, blockTrade, receiveTime, originalData)
+                        .WithDataTimestamp(blockTrade.ExecutionTime)
+                        .WithStreamId(data.Arg.Channel)
+                        .WithSymbol(data.Arg.Symbol)
+                    );
+            }
         });
 
         var subscription = new OKXSubscription<OKXBlockTrade[]>(_logger, _client, new List<OKXSocketArgs>

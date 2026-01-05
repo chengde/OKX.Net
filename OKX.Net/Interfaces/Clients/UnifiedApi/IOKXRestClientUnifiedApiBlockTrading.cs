@@ -99,7 +99,7 @@ public interface IOKXRestClientUnifiedApiBlockTrading
     /// Rate limit rule: UserID
     /// HTTP Request: POST /api/v5/rfq/execute-quote
     /// </remarks>
-    Task<WebCallResult<OKXBlockTrade>> ExecuteQuoteAsync(string rfqId, string quoteId, List<OKXExecuteQuoteLeg> legs, CancellationToken ct = default);
+    Task<WebCallResult<OKXBlockTrade[]>> ExecuteQuoteAsync(string rfqId, string quoteId, List<OKXExecuteQuoteLeg> legs, CancellationToken ct = default);
 
 
     /// <summary>
