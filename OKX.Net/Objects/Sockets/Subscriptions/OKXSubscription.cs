@@ -51,6 +51,8 @@ internal class OKXSubscription<T> : Subscription
 
     public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, OKXSocketUpdate<T> message)
     {
+        if (message.Data is Array arr && arr.Length == 0)
+            return CallResult.SuccessResult;
         _handler.Invoke(receiveTime, originalData, message);
         return CallResult.SuccessResult;
     }

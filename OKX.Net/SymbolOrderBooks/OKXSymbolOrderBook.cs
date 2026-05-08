@@ -94,7 +94,7 @@ namespace OKX.Net.SymbolOrderBooks
 
         private void ProcessUpdate(DataEvent<OKXOrderBook> data)
         {
-            if (_type == OrderBookType.OrderBook_5)
+            if (_type == OrderBookType.OrderBook_5 || _type == OrderBookType.BBO_TBT)
             {
                 SetSnapshot(data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
             }
