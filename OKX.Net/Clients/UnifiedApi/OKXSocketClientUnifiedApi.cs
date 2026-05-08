@@ -1,34 +1,21 @@
 ﻿using CryptoExchange.Net.Clients;
-using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Converters.MessageParsing.DynamicConverters;
 using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
-using CryptoExchange.Net.Sockets;
 using CryptoExchange.Net.Sockets.Default;
 using OKX.Net.Clients.MessageHandlers;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Options;
-using OKX.Net.Objects.Sockets.Models;
 using OKX.Net.Objects.Sockets.Queries;
 using OKX.Net.Objects.Sockets.Subscriptions;
-using System.IO;
-using System.IO.Compression;
 using System.Net.WebSockets;
 
 namespace OKX.Net.Clients.UnifiedApi;
 
 /// <inheritdoc />
-internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifiedApi
+internal partial class OKXSocketClientUnifiedApi : SocketApiClient<OKXEnvironment, OKXAuthenticationProvider, OKXCredentials>, IOKXSocketClientUnifiedApi
 {
-    private static readonly MessagePath _idPath = MessagePath.Get().Property("id");
-    private static readonly MessagePath _eventPath = MessagePath.Get().Property("event");
-    private static readonly MessagePath _errorMsgPath = MessagePath.Get().Property("msg");
-    private static readonly MessagePath _channelPath = MessagePath.Get().Property("arg").Property("channel");
-    private static readonly MessagePath _instIdPath = MessagePath.Get().Property("arg").Property("instId");
-    private static readonly MessagePath _instTypePath = MessagePath.Get().Property("arg").Property("instType");
-    private static readonly MessagePath _instFamilyPath = MessagePath.Get().Property("arg").Property("instFamily");
-
     public new OKXSocketOptions ClientOptions => (OKXSocketOptions)base.ClientOptions;
 
     protected override ErrorMapping ErrorMapping => OKXErrors.ErrorMapping;
@@ -54,8 +41,6 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
         Trading = new OKXSocketClientUnifiedApiTrading(logger, this);
         BlockTrading = new OKXSocketClientUnifiedApiBlockTrading(logger, this);
 
-        ProcessUnparsableMessages = true;
-
         _demoTrading = options.Environment.Name == TradeEnvironmentNames.Testnet;
 
         AddSystemSubscription(new OKXConnCountSubscription(_logger));
@@ -80,8 +65,6 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
 
     /// <inheritdoc />
     protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(OKXExchange._serializerContext));
-    /// <inheritdoc />
-    protected override IByteMessageAccessor CreateAccessor(WebSocketMessageType type) => new SystemTextJsonByteMessageAccessor(SerializerOptions.WithConverters(OKXExchange._serializerContext));
 
     public override ISocketMessageHandler CreateMessageConverter(WebSocketMessageType messageType) => new OKXSocketMessageHandler();
 
@@ -90,61 +73,6 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
     /// <inheritdoc />
     public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
         => OKXExchange.FormatSymbol(baseAsset, quoteAsset, tradingMode, deliverTime);
-
-    /// <inheritdoc />
-    public override string GetListenerIdentifier(IMessageAccessor message)
-    {
-        if (!message.IsValid)
-            return "pong";
-
-        var id = message.GetValue<string>(_idPath);
-        if (id != null)
-            return id;
-
-        var evnt = message.GetValue<string>(_eventPath);
-        if (evnt == "error")
-        {
-            var errorMsg = message.GetValue<string?>(_errorMsgPath);
-            if (errorMsg != null && errorMsg.StartsWith("Wrong URL or channel:"))
-            {
-                // Try parse which sub request produced the error so it can be linked to the specific request
-                var subParams = errorMsg.Substring(21, errorMsg.IndexOf(" doesn't exist") - 21);
-                var subParamsSplit = subParams.Split(',');
-                return evnt + string.Join("", subParamsSplit.Select(x => x.Split(':').Last())).ToLowerInvariant();
-            }
-
-            return evnt;
-        }
-
-        var channel = message.GetValue<string>(_channelPath);
-        var instType = message.GetValue<string>(_instTypePath);
-        var instId = message.GetValue<string>(_instIdPath);
-        var instFamily = message.GetValue<string>(_instFamilyPath);
-        return $"{evnt}{channel?.ToLowerInvariant()}{instType?.ToLowerInvariant()}{instFamily?.ToLowerInvariant()}{instId?.ToLowerInvariant()}";
-    }
-
-    /// <inheritdoc />
-    protected override Task<Query?> GetAuthenticationRequestAsync(SocketConnection connection)
-    {
-        var okxAuthProvider = (OKXAuthenticationProvider)AuthenticationProvider!;
-        var timestamp = (DateTimeConverter.ConvertToMilliseconds(DateTime.UtcNow) / 1000).Value.ToString(CultureInfo.InvariantCulture);
-        var signature = okxAuthProvider.SignWebsocket(timestamp);
-        var request = new OKXSocketAuthRequest
-        {
-            Op = "login",
-            Args =
-            [
-                new OKXSocketAuthArgs
-                {
-                    ApiKey = okxAuthProvider.ApiKey,
-                    Passphrase = okxAuthProvider.Pass!,
-                    Timestamp = timestamp,
-                    Sign = signature,
-                }
-            ]
-        };
-        return Task.FromResult<Query?>(new OKXQuery(this, request, false));
-    }
 
     internal Task<CallResult<UpdateSubscription>> SubscribeInternalAsync(string url, Subscription subscription, CancellationToken ct)
     {
@@ -180,22 +108,19 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
         return result.As(result.Data.Data);
     }
 
-    internal string GetUri(string path) => BaseAddress.Trim(['/']) + path;
+    internal string GetUri(string path) => BaseAddress.Trim('/') + path;
 
     /// <inheritdoc />
-    protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
+    protected override OKXAuthenticationProvider CreateAuthenticationProvider(OKXCredentials credentials)
         => new OKXAuthenticationProvider(credentials);
 
     /// <inheritdoc />
-    public override ReadOnlyMemory<byte> PreprocessStreamMessage(SocketConnection connection, WebSocketMessageType type, ReadOnlyMemory<byte> data)
+    public override ReadOnlySpan<byte> PreprocessStreamMessage(SocketConnection connection, WebSocketMessageType type, ReadOnlySpan<byte> data)
     {
         if (type != WebSocketMessageType.Binary)
             return data;
 
-        using var decompressedStream = new MemoryStream();
-        using var deflateStream = new GZipStream(new MemoryStream(data.ToArray()), CompressionMode.Decompress);
-        deflateStream.CopyTo(decompressedStream);
-        return new ReadOnlyMemory<byte>(decompressedStream.GetBuffer(), 0, (int)decompressedStream.Length);
+        return data.DecompressGzip();
     }
 
     void IOKXSocketClientUnifiedApi.AddSystemSubscription(SystemSubscription systemSubscription)

@@ -15,9 +15,7 @@ namespace OKX.Net.SymbolOrderBooks
     {
         private readonly IOKXSocketClient _socketClient;
         private readonly bool _clientOwner;
-        private bool _initialSnapshotDone;
         private int? _levels;
-        private bool _snapshots;
         private OrderBookType _type;
         private readonly TimeSpan _initialDataTimeout;
 
@@ -48,7 +46,6 @@ namespace OKX.Net.SymbolOrderBooks
                 optionsDelegate(options);
             Initialize(options);
 
-            _sequencesAreConsecutive = false;
             _strictLevels = true;
             _initialDataTimeout = options?.InitialDataTimeout ?? TimeSpan.FromSeconds(30);
             _levels = options?.Limit;
@@ -64,13 +61,13 @@ namespace OKX.Net.SymbolOrderBooks
             else if (_levels == 400 || _levels == null)
                 _type = OrderBookType.OrderBook;
 
-            _snapshots = _type == OrderBookType.OrderBook_5 || _type == OrderBookType.BBO_TBT;
+            _sequencesAreConsecutive = _type == OrderBookType.OrderBook;
+
         }
 
         /// <inheritdoc />
         protected override async Task<CallResult<UpdateSubscription>> DoStartAsync(CancellationToken ct)
         {
-
             var result = await _socketClient.UnifiedApi.ExchangeData.SubscribeToOrderBookUpdatesAsync(Symbol, _type, ProcessUpdate).ConfigureAwait(false);
             if (!result)
                 return result;
@@ -84,26 +81,34 @@ namespace OKX.Net.SymbolOrderBooks
             Status = OrderBookStatus.Syncing;
 
             var setResult = await WaitForSetOrderBookAsync(_initialDataTimeout, ct).ConfigureAwait(false);
+            if (!setResult)
+                await result.Data.CloseAsync().ConfigureAwait(false);
+
             return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);
         }
 
         /// <inheritdoc />
         protected override void DoReset()
         {
-            _initialSnapshotDone = false;
         }
 
         private void ProcessUpdate(DataEvent<OKXOrderBook> data)
         {
-            if (!_initialSnapshotDone || _snapshots)
+            if (_type == OrderBookType.OrderBook_5)
             {
-                SetInitialOrderBook(data.Data.SequenceId??0, data.Data.Bids, data.Data.Asks);
-                _initialSnapshotDone = true;
+                SetSnapshot(data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
             }
             else
             {
-                UpdateOrderBook(data.Data.SequenceId??0, data.Data.Bids, data.Data.Asks);
-                //AddChecksum((int)data.Data.Checksum!);
+                if (data.UpdateType == SocketUpdateType.Snapshot)
+                {
+                    SetSnapshot(data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
+                }
+                else
+                {
+                    UpdateOrderBook(data.Data.PreviousSequenceId!.Value + 1, data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
+                    //AddChecksum((int)data.Data.Checksum!);
+                }
             }
         }
 

@@ -7,19 +7,19 @@ namespace OKX.Net.Objects.Trade;
 public record OKXOrderCancelRequest
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol name
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Order id
+    /// ["<c>ordId</c>"] Order id
     /// </summary>
     [JsonPropertyName("ordId"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? OrderId { get; set; }
 
     /// <summary>
-    /// Client order id
+    /// ["<c>clOrdId</c>"] Client order id
     /// </summary>
     [JsonPropertyName("clOrdId"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? ClientOrderId { get; set; }

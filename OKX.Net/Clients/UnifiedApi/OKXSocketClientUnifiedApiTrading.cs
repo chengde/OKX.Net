@@ -26,10 +26,11 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
     #endregion
 
     /// <inheritdoc />
-    public async Task<CallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(string symbol,
+    public async Task<CallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(
+        long symbolCode,
         OrderSide side,
         OrderType type,
-        Enums.TradeMode tradeMode,
+        TradeMode tradeMode,
         decimal quantity,
         decimal? price = null,
         PositionSide? positionSide = null,
@@ -43,17 +44,18 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         string? clientOrderId = null,
         bool? reduceOnly = null,
         string? tradeQuoteAsset = null,
+
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>()
+        var parameters = new Dictionary<string, object>
         {
-            { "instId", symbol },
             { "tdMode", EnumConverter.GetString(tradeMode) },
             { "side", EnumConverter.GetString(side) },
             { "ordType", EnumConverter.GetString(type) },
             { "sz", quantity.ToString(CultureInfo.InvariantCulture) },
         };
 
+        parameters.AddParameter("instIdCode", symbolCode);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
         parameters.AddOptionalParameter("tag", LibraryHelpers.GetClientReference(() => _client.ClientOptions.BrokerId, _client.Exchange));
@@ -71,7 +73,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
             return result;
 
         if (!result.Data.Success)
-            return result.AsError<OKXOrderPlaceResponse>(new ServerError(result.Data.Code, _client.GetErrorInfo(result.Data.Code, result.Data.Message), null));
+            return result.AsError<OKXOrderPlaceResponse>(new ServerError(result.Data.Code, _client.GetErrorInfo(result.Data.Code, result.Data.Message)));
 
         return result;
     }
@@ -99,13 +101,10 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
     }
 
     /// <inheritdoc />
-    public async Task<CallResult<OKXOrderCancelResponse>> CancelOrderAsync(string symbol, string? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
+    public async Task<CallResult<OKXOrderCancelResponse>> CancelOrderAsync(long symbolCode, string? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>()
-        {
-            { "instId", symbol }
-        };
-
+        var parameters = new Dictionary<string, object>();
+        parameters.AddParameter("instIdCode", symbolCode);
         parameters.AddOptionalParameter("ordId", orderId);
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
 
@@ -114,20 +113,20 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
             return result;
 
         if (!result.Data.Success)
-            return result.AsError<OKXOrderCancelResponse>(new ServerError(result.Data.Code, _client.GetErrorInfo(result.Data.Code, result.Data.Message), null));
+            return result.AsError<OKXOrderCancelResponse>(new ServerError(result.Data.Code, _client.GetErrorInfo(result.Data.Code, result.Data.Message)));
 
         return result;
     }
 
     /// <inheritdoc />
-    public async Task<CallResult<OKXOrderCancelResponse[]>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelRequest> ordersToCancel, CancellationToken ct = default)
+    public async Task<CallResult<OKXOrderCancelResponse[]>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelSocketRequest> ordersToCancel, CancellationToken ct = default)
     {
         return await _client.QueryInternalAsync<OKXOrderCancelResponse>(_client.GetUri("/ws/v5/private"), "batch-cancel-orders", ordersToCancel, true, 1, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<CallResult<OKXOrderAmendResponse>> AmendOrderAsync(
-        string symbol,
+        long symbolCode,
         long? orderId = null,
         string? clientOrderId = null,
         string? requestId = null,
@@ -135,10 +134,8 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         decimal? newPrice = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>
-        {
-            { "instId", symbol },
-        };
+        var parameters = new Dictionary<string, object>();
+        parameters.AddParameter("instIdCode", symbolCode);
         parameters.AddOptionalParameter("ordId", orderId?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
         parameters.AddOptionalParameter("reqId", requestId);
@@ -150,7 +147,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
             return result;
 
         if (!result.Data.Success)
-            return result.AsError<OKXOrderAmendResponse>(new ServerError(result.Data.Code, _client.GetErrorInfo(result.Data.Code, result.Data.Message), null));
+            return result.AsError<OKXOrderAmendResponse>(new ServerError(result.Data.Code, _client.GetErrorInfo(result.Data.Code, result.Data.Message)));
 
         return result;
     }
@@ -172,10 +169,14 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXPosition[]>>((receiveTime, originalData, data) =>
         {
+            DateTime? timestamp = data.Data.Length > 0 ? data.Data.Max(x => x.UpdateTime) : null;
+            if (timestamp != null)
+                _client.UpdateTimeOffset(timestamp.Value);
+
             onData(
                 new DataEvent<OKXPosition[]>(OKXExchange.ExchangeName, data.Data, receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                    .WithDataTimestamp(data.Data.Length > 0 ? data.Data.Max(x => x.UpdateTime) : null)
+                    .WithDataTimestamp(timestamp, _client.GetTimeOffset())
                     .WithStreamId(data.Arg.Channel)
                     .WithSymbol(data.Arg.Symbol)
                 );
@@ -204,10 +205,13 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXPosition[]>>((receiveTime, originalData, data) =>
         {
+            var item = data.Data.First();
+            _client.UpdateTimeOffset(item.Time);
+
             onData(
-                new DataEvent<OKXPosition>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
+                new DataEvent<OKXPosition>(OKXExchange.ExchangeName, item, receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                    .WithDataTimestamp(data.Data.First().UpdateTime)
+                    .WithDataTimestamp(item.UpdateTime, _client.GetTimeOffset())
                     .WithStreamId(data.Arg.Channel)
                     .WithSymbol(data.Arg.Symbol)
                 );
@@ -236,10 +240,13 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXOrderUpdate[]>>((receiveTime, originalData, data) =>
         {
+            var item = data.Data.First();
+            _client.UpdateTimeOffset(item.UpdateTime);
+
             onData(
-                new DataEvent<OKXOrderUpdate>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
+                new DataEvent<OKXOrderUpdate>(OKXExchange.ExchangeName, item, receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                    .WithDataTimestamp(data.Data.First().UpdateTime)
+                    .WithDataTimestamp(item.UpdateTime, _client.GetTimeOffset())
                     .WithStreamId(data.Arg.Channel)
                     .WithSymbol(data.Arg.Symbol)
                 );
@@ -267,10 +274,13 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXUserTradeUpdate[]>>((receiveTime, originalData, data) =>
         {
+            var item = data.Data.First();
+            _client.UpdateTimeOffset(item.Timestamp);
+
             onData(
-                new DataEvent<OKXUserTradeUpdate>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
+                new DataEvent<OKXUserTradeUpdate>(OKXExchange.ExchangeName, item, receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                    .WithDataTimestamp(data.Data.First().Timestamp)
+                    .WithDataTimestamp(item.Timestamp, _client.GetTimeOffset())
                     .WithStreamId(data.Arg.Channel)
                     .WithSymbol(data.Arg.Symbol)
                 );
@@ -298,10 +308,14 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXAlgoOrderUpdate[]>>((receiveTime, originalData, data) =>
         {
+            var item = data.Data.First();
+            if (item.UpdateTime != null)
+                _client.UpdateTimeOffset(item.UpdateTime.Value);
+
             onData(
-                new DataEvent<OKXAlgoOrderUpdate>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
+                new DataEvent<OKXAlgoOrderUpdate>(OKXExchange.ExchangeName, item, receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                    .WithDataTimestamp(data.Data.First().UpdateTime)
+                    .WithDataTimestamp(item.UpdateTime, _client.GetTimeOffset())
                     .WithStreamId(data.Arg.Channel)
                     .WithSymbol(data.Arg.Symbol)
                 );
@@ -331,13 +345,19 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXAlgoOrderUpdate[]>>((receiveTime, originalData, data) =>
         {
+            var first = data.Data.First();
+            if (first.UpdateTime != null)
+                _client.UpdateTimeOffset(first.UpdateTime.Value);
+
             foreach (var update in data.Data)
             {
-            onData(
-                new DataEvent<OKXAlgoOrderUpdate>(OKXExchange.ExchangeName, update, receiveTime, originalData)
-                    .WithStreamId(data.Arg.Channel)
-                    .WithSymbol(update.Symbol)
-                );
+                onData(
+                    new DataEvent<OKXAlgoOrderUpdate>(OKXExchange.ExchangeName, update, receiveTime, originalData)
+                        .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
+                        .WithDataTimestamp(update.UpdateTime, _client.GetTimeOffset())
+                        .WithStreamId(data.Arg.Channel)
+                        .WithSymbol(update.Symbol)
+                    );
             }
         });
 

@@ -45,7 +45,7 @@ OKX.Net is available on [GitHub packages](https://github.com/JKorf/OKX.Net/pkgs/
 The NuGet package files are added along side the source with the latest GitHub release which can found [here](https://github.com/JKorf/OKX.Net/releases).
 
 ## How to use
-*REST Endpoints*  
+*Basic request:* 
 
 ```csharp
 // Get the ETH/USDT ticker via rest request
@@ -54,7 +54,25 @@ var tickerResult = await restClient.UnifiedApi.ExchangeData.GetTickerAsync("ETH-
 var lastPrice = tickerResult.Data.LastPrice;
 ```
 	
-*Websocket streams*  
+*Place order:*
+```csharp
+var restClient = new OKXRestClient(opts => {
+	opts.ApiCredentials = new OKXCredentials("APIKEY", "APISECRET", "PASS");
+});
+
+// Place Limit order to buy 10 long contracts of ETH/USD at 2000
+var orderResult = await restClient.UnifiedApi.Trading.PlaceOrderAsync(
+    "ETH-USD-SWAP",
+    OrderSide.Buy,
+    OrderType.Limit,
+    quantity: 10m,
+    price: 2000,
+    positionSide: PositionSide.Long,
+    tradeMode: TradeMode.Cross
+    );
+```
+
+*WebSocket subscription:* 
 
 ```csharp
 // Subscribe to ETH/USDT ticker updates via the websocket API
@@ -97,6 +115,7 @@ CryptoExchange.Net also allows for [easy access to different exchange API's](htt
 |Bitget|[JKorf/Bitget.Net](https://github.com/JKorf/Bitget.Net)|[![Nuget version](https://img.shields.io/nuget/v/JK.Bitget.net.svg?style=flat-square)](https://www.nuget.org/packages/JK.Bitget.Net)|
 |BitMart|[JKorf/BitMart.Net](https://github.com/JKorf/BitMart.Net)|[![Nuget version](https://img.shields.io/nuget/v/BitMart.net.svg?style=flat-square)](https://www.nuget.org/packages/BitMart.Net)|
 |BitMEX|[JKorf/BitMEX.Net](https://github.com/JKorf/BitMEX.Net)|[![Nuget version](https://img.shields.io/nuget/v/JKorf.BitMEX.net.svg?style=flat-square)](https://www.nuget.org/packages/JKorf.BitMEX.Net)|
+|Bitstamp|[JKorf/Bitstamp.Net](https://github.com/JKorf/Bitstamp.Net)|[![Nuget version](https://img.shields.io/nuget/v/Bitstamp.Net.svg?style=flat-square)](https://www.nuget.org/packages/Bitstamp.Net)|
 |BloFin|[JKorf/BloFin.Net](https://github.com/JKorf/BloFin.Net)|[![Nuget version](https://img.shields.io/nuget/v/BloFin.net.svg?style=flat-square)](https://www.nuget.org/packages/BloFin.Net)|
 |Bybit|[JKorf/Bybit.Net](https://github.com/JKorf/Bybit.Net)|[![Nuget version](https://img.shields.io/nuget/v/Bybit.net.svg?style=flat-square)](https://www.nuget.org/packages/Bybit.Net)|
 |Coinbase|[JKorf/Coinbase.Net](https://github.com/JKorf/Coinbase.Net)|[![Nuget version](https://img.shields.io/nuget/v/JKorf.Coinbase.Net.svg?style=flat-square)](https://www.nuget.org/packages/JKorf.Coinbase.Net)|
@@ -111,8 +130,10 @@ CryptoExchange.Net also allows for [easy access to different exchange API's](htt
 |Kraken|[JKorf/Kraken.Net](https://github.com/JKorf/Kraken.Net)|[![Nuget version](https://img.shields.io/nuget/v/KrakenExchange.net.svg?style=flat-square)](https://www.nuget.org/packages/KrakenExchange.Net)|
 |Kucoin|[JKorf/Kucoin.Net](https://github.com/JKorf/Kucoin.Net)|[![Nuget version](https://img.shields.io/nuget/v/Kucoin.net.svg?style=flat-square)](https://www.nuget.org/packages/Kucoin.Net)|
 |Mexc|[JKorf/Mexc.Net](https://github.com/JKorf/Mexc.Net)|[![Nuget version](https://img.shields.io/nuget/v/JK.Mexc.net.svg?style=flat-square)](https://www.nuget.org/packages/JK.Mexc.Net)|
+|Polymarket|[JKorf/Polymarket.Net](https://github.com/JKorf/Polymarket.Net)|[![Nuget version](https://img.shields.io/nuget/v/Polymarket.net.svg?style=flat-square)](https://www.nuget.org/packages/Polymarket.Net)|
 |Toobit|[JKorf/Toobit.Net](https://github.com/JKorf/Toobit.Net)|[![Nuget version](https://img.shields.io/nuget/v/Toobit.net.svg?style=flat-square)](https://www.nuget.org/packages/Toobit.Net)|
 |Upbit|[JKorf/Upbit.Net](https://github.com/JKorf/Upbit.Net)|[![Nuget version](https://img.shields.io/nuget/v/JKorf.Upbit.net.svg?style=flat-square)](https://www.nuget.org/packages/JKorf.Upbit.Net)|
+|Weex|[JKorf/Weex.Net](https://github.com/JKorf/Weex.Net)|[![Nuget version](https://img.shields.io/nuget/v/Weex.net.svg?style=flat-square)](https://www.nuget.org/packages/Weex.Net)|
 |WhiteBit|[JKorf/WhiteBit.Net](https://github.com/JKorf/WhiteBit.Net)|[![Nuget version](https://img.shields.io/nuget/v/WhiteBit.net.svg?style=flat-square)](https://www.nuget.org/packages/WhiteBit.Net)|
 |XT|[JKorf/XT.Net](https://github.com/JKorf/XT.Net)|[![Nuget version](https://img.shields.io/nuget/v/XT.net.svg?style=flat-square)](https://www.nuget.org/packages/XT.Net)|
 
@@ -176,6 +197,140 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.13.0 - 01 May 2026
+    * Added CallbackRatio, CallbackSpread, ActivePrice parameters for attached algo orders on place order endpoints
+
+* Version 4.12.1 - 13 Apr 2026
+    * Updated socketClient.UnifiedApi.Trading.CancelMultipleOrdersAsync request model to OKXOrderCancelSocketRequest
+    * Fixed restClient.UnifiedApi.Trading.CancelMultipleOrdersAsync request model, switching back to Symbol instead of SymbolCode
+
+* Version 4.12.0 - 09 Apr 2026
+    * Updated CryptoExchange.Net to version 11.1.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+    * Removed symbol parameter from socket PlaceOrder methods, made symbolCode required
+    * Removed symbol parameter from socket CancelOrder and AmendOrder methods, made symbolCode required
+    * Fixed deserialization issue OKXDiscountInfo model
+
+    * Notes for updating:
+        * The symbol parameter for socket order requests has been removed in the API, instead symbolCode parameter should be used. The symbolCode for a symbol can be retrieved using `restClient.UnifiedApi.ExchangeData.GetSymbolsAsync`
+
+* Version 4.11.0 - 01 Apr 2026
+    * Added restClient.UnifiedApi.Account.GetEstimatedLeverageInfoAsync endpoint
+    * Added restClient.UnifiedApi.Account.GetAccountRiskStateAsync endpoint
+    * Added restClient.UnifiedApi.Account.GetBorrowInterestLimitAsync endpoint
+    * Added restClient.UnifiedApi.CopyTrading.GetLeadPositionsAsync endpoint
+    * Added restClient.UnifiedApi.CopyTrading.GetLeadPositionHistoryAsync endpoint
+    * Added restClient.UnifiedApi.CopyTrading.PlaceLeadStopOrderAsync endpoint
+    * Added restClient.UnifiedApi.CopyTrading.CloseLeadPositionAsync endpoint
+    * Added restClient.UnifiedApi.CopyTrading.GetLeadingInstrumentsAsync endpoint
+    * Added restClient.UnifiedApi.CopyTrading.AmendLeadingInstrumentsAsync endpoint
+    * Added restClient.UnifiedApi.ExchangeData.GetPremiumHistoryAsync endpoint
+    * Added restClient.UnifiedApi.SubAccount.GetSubAccountMaxWithdrawalsAsync endpoint
+    * Added restClient.UnifiedApi.SubAccount.GetManagedSubAccountBillsAsync endpoint
+    * Added restClient.UnifiedApi.SubAccount.GetEntrustSubAccountsAsync endpoint
+    * Added restClient.UnifiedApi.SubAccount.GetSubAccountApiKeysAsync endpoint
+    * Added restClient.UnifiedApi.SubAccount.CreateSubAccountApiKeyAsync endpoint
+    * Added restClient.UnifiedApi.SubAccount.DeleteSubAccountApiKeyAsync endpoint
+    * Added restClient.UnifiedApi.SubAccount.SetSubAccountTransferOutAsync endpoint
+    * Added restClient.UnifiedApi.SubAccount.CreateSubAccountAsync endpoint
+    * Added restClient.UnifiedApi.Trading.GetAccountRateLimitAsync endpoint
+    * Added restClient.UnifiedApi.Trading.GetOneClickRepayCurrencyListAsync endpoint
+    * Added restClient.UnifiedApi.Trading.GetOneClickRepayCurrencyListV2Async endpoint
+    * Added restClient.UnifiedApi.Trading.OneClickRepayAsync endpoint
+    * Added restClient.UnifiedApi.Trading.OneClickRepayV2Async endpoint
+    * Added restClient.UnifiedApi.Trading.GetOneClickRepayHistoryAsync endpoint
+    * Added restClient.UnifiedApi.Trading.GetOneClickRepayHistoryV2Async endpoint
+    * Added priceAmendType parameter to restClient.UnifiedApi.Trading.AmendOrderAsync endpoint
+    * Added priceAmendType, isElpTakerAccess parameters to restClient.UnifiedApi.Trading.PlaceOrderAsync endpoint
+    * Added ClientAlgoOrderId parameter to OKXAlgoOrderRequest request model
+    * Added SubCode property to OKXOrderAmendResponse model
+    * Added SubCode property to OKXOrderAmendResponse model
+    * Added GroupId, LongPositionRemainingQuota, ShortPositionRemainingQuota properties to OKXInstrument model
+    * Removed restClient.UnifiedApi.Account.GetLightningDepositsAsync endpoint
+    * Removed restClient.UnifiedApi.Account.GetLightningWithdrawalAsync endpoint
+    * Removed restClient.UnifiedApi.ExchangeData.GetVIPInterestRatesAsync endpoint
+    * Removed restClient.UnifiedApi.Trading.CancelAdvanceAlgoOrderAsync endpoint
+
+* Version 4.10.2 - 30 Mar 2026
+    * Added GetFundingBillHistoryAsync endpoint
+    * Added ThisFiveYears to InstrumentAlias Enum values
+    * Added Perp to SymbolRuleType Enum values
+    * Updated OKXInstrument.SymbolCategory to nullable since it's not always set
+
+* Version 4.10.1 - 24 Mar 2026
+    * Fix issue in credentials copying
+
+* Version 4.10.0 - 24 Mar 2026
+    * Updated CryptoExchange.Net to version 11.0.1, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+    * Updated class for supplying API credentials from ApiCredentials to OKXCredentials
+    * Updated Shared order status parsing to default to Unknown value if not parsable
+    * Updated SymbolCategory enum values
+
+    * Notes for updating:
+        * Update ApiCredentials to OKXCredentials for authentication, i.e. `ApiCredentials = new ApiCredentials(..)` => `ApiCredentials = new OKXCredentials(..)`
+
+* Version 4.9.0 - 09 Mar 2026
+    * Added SymbolCategory property to OKXInstrument model
+    * Added RebaseContract to SymbolRuleType Enum values
+    * Added Rebase to InstrumentState Enum values
+    * Updated xml comments to include json fields
+
+* Version 4.8.0 - 06 Mar 2026
+    * Updated CryptoExchange.Net to version 10.8.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+    * Improved method XML comments
+    * Fixed GetOrdersAsync filter parameters
+
+* Version 4.7.0 - 24 Feb 2026
+    * Updated CryptoExchange.Net to version 10.7.0
+    * Added additional Http settings to client options
+    * Updated Shared REST interfaces pagination logic
+    * Updated HttpClient registration, fixing issue of DNS changes not getting processed
+    * Fixed UserClientProvider using unconfigured HttpClient
+
+* Version 4.6.0 - 16 Feb 2026
+    * Updated CryptoExchange.Net to version 10.6.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+    * Fixed SymbolOrderBook websocket subscription not getting closed if when waiting for initial data times out
+    * Fixed OKXSymbolOrderBook when using Limit = 5
+
+* Version 4.5.0 - 10 Feb 2026
+    * Updated CryptoExchange.Net to version 10.5.1, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+    * Added groupId parameter to restClient.UnifiedApi.Account.GetFeeRatesAsync endpoint
+    * Added advancedOrderType parameter to PlaceAlgoOrderAsync endpoints
+    * Added AdvancedOrderType to OKXAlgoOrder model
+    * Updated websocket order endpoints to support symbolCode parameter, marked symbol parameter as deprecated
+    * Updated UserClientProvider internal client cache to non-static to prevent cleanup issues
+    * Fixed websocket query response topic mapping
+
+* Version 4.4.0 - 06 Feb 2026
+    * Updated CryptoExchange.Net to version 10.4.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+    * Added OKXUserSpotDataTracker and OKXUserFuturesDataTracker
+    * Added additional methods for requesting supported symbols to Shared ISpotSymbolRestClient/IFuturesSymbolRestClient interfaces
+    * Added PositionMode mapping on SharedPosition models
+    * Added Status mapping for SharedDeposit models
+    * Fixed disposed clients getting returned from UserClientProvider
+    * Fixed restClient.UnifiedApi.Account.EasyConvertDustAsync parameter serialization
+
+* Version 4.3.0 - 22 Jan 2026
+    * Updated CryptoExchange.Net to version 10.3.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+    * Removed legacy websocket message handling and the corresponding UseUpdatedDeserialization client option
+    * Added Metadata to OKXExchange
+
+* Version 4.2.1 - 14 Jan 2026
+    * Updated CryptoExchange.Net to version 10.2.3, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+
+* Version 4.2.0 - 13 Jan 2026
+    * Updated CryptoExchange.Net to version 10.2.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+    * Added SequenceNumber to order book websocket updates
+    * Added SequenceNumber checking to SymbolOrderBook implementation
+
+* Version 4.1.0 - 07 Jan 2026
+    * Updated CryptoExchange.Net version to 10.1.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+    * Added DataTimeLocal and DataAge properties to DataEvent object
+    * Added UpdateServerTime, UpdateLocalTime and DataAge properties to (I)SymbolOrderBook
+
+* Version 4.0.1 - 19 Dec 2025
+    * Fixed missing stream decompressing
+    * Updated CryptoExchange.Net version to 10.0.2, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+
 * Version 4.0.0 - 16 Dec 2025
     * Added Net10.0 target framework
     * Updated CryptoExchange.Net version to 10.0.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes

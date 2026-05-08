@@ -2,6 +2,7 @@
 using CryptoExchange.Net.Sockets;
 using CryptoExchange.Net.Sockets.Default;
 using OKX.Net.Objects.Sockets.Models;
+using CryptoExchange.Net.Sockets.Default.Routing;
 
 namespace OKX.Net.Objects.Sockets.Queries;
 internal class OKXQuery : Query<OKXSocketResponse>
@@ -12,18 +13,14 @@ internal class OKXQuery : Query<OKXSocketResponse>
     {
         _client = client;
 
-        var ids = new List<string> { "error" };
         var routes = new List<MessageRoute>();
         foreach (var arg in request.Args)
         {
-            ids.Add(request.Op + arg.Channel.ToLowerInvariant() + arg.InstrumentType?.ToString().ToLowerInvariant() + arg.InstrumentFamily?.ToString().ToLowerInvariant() + arg.Symbol?.ToLowerInvariant());
-            ids.Add("error" + arg.Channel.ToLowerInvariant() + arg.InstrumentType?.ToString().ToLowerInvariant() + arg.InstrumentFamily?.ToString().ToLowerInvariant() + arg.Symbol?.ToLowerInvariant());
-
-            routes.Add(MessageRoute<OKXSocketResponse>.CreateWithTopicFilter(request.Op + arg.Channel, arg.InstrumentType + arg.InstrumentFamily + arg.Symbol, HandleMessage));
-            routes.Add(MessageRoute<OKXSocketResponse>.CreateWithoutTopicFilter("error" + arg.Channel + arg.InstrumentType + arg.InstrumentFamily + arg.Symbol, HandleMessage));
+            var topic = arg.InstrumentType + arg.InstrumentFamily + arg.Symbol;
+            routes.Add(MessageRoute<OKXSocketResponse>.CreateWithOptionalTopicFilter(request.Op + arg.Channel, string.IsNullOrEmpty(topic) ? null : topic, HandleMessage));
+            routes.Add(MessageRoute<OKXSocketResponse>.CreateWithoutTopicFilter("error" + arg.Channel + topic, HandleMessage));
         }
 
-        MessageMatcher = MessageMatcher.Create<OKXSocketResponse>(ids, HandleMessage);
         MessageRouter = MessageRouter.Create(routes.ToArray());
 
         RequiredResponses = request.Args.Count;
@@ -32,7 +29,6 @@ internal class OKXQuery : Query<OKXSocketResponse>
     public OKXQuery(SocketApiClient client, OKXSocketAuthRequest request, bool authenticated, int weight = 1) : base(request, authenticated, weight)
     {
         _client = client;
-        MessageMatcher = MessageMatcher.Create<OKXSocketResponse>(["login", "error"], HandleMessage);
         MessageRouter = MessageRouter.CreateWithoutTopicFilter<OKXSocketResponse>(["login", "error"], HandleMessage);
     }
 

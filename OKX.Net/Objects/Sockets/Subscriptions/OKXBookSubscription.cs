@@ -5,8 +5,10 @@ using CryptoExchange.Net.Sockets.Default;
 using OKX.Net.Objects.Market;
 using OKX.Net.Objects.Sockets.Models;
 using OKX.Net.Objects.Sockets.Queries;
+using CryptoExchange.Net.Sockets.Default.Routing;
 
 namespace OKX.Net.Objects.Sockets.Subscriptions;
+
 internal class OKXBookSubscription : Subscription
 {
     private readonly SocketApiClient _client;
@@ -21,7 +23,6 @@ internal class OKXBookSubscription : Subscription
 
         IndividualSubscriptionCount = args.Count;
 
-        MessageMatcher = MessageMatcher.Create<OKXSocketUpdate<OKXOrderBook[]>>(args.Select(x => x.Channel.ToLowerInvariant() + x.InstrumentType?.ToString().ToLowerInvariant() + x.InstrumentFamily?.ToString().ToLowerInvariant() + x.Symbol?.ToLowerInvariant()), DoHandleMessage);
         MessageRouter = MessageRouter.CreateWithTopicFilters<OKXSocketUpdate<OKXOrderBook[]>>(args.First().Channel, args.Select(x => x.InstrumentType + x.InstrumentFamily + x.Symbol), DoHandleMessage);
     }
 
@@ -48,10 +49,15 @@ internal class OKXBookSubscription : Subscription
         foreach (var item in message.Data)
             item.Action = message.Action!;
 
+        var book = message.Data.Single();
+        _client.UpdateTimeOffset(book.Time);
+
         _handler.Invoke(
-                new DataEvent<OKXOrderBook>(OKXExchange.ExchangeName, message.Data.Single(), receiveTime, originalData)
+                new DataEvent<OKXOrderBook>(OKXExchange.ExchangeName, book, receiveTime, originalData)
                     .WithStreamId(message.Arg.Channel)
                     .WithSymbol(message.Arg.Symbol)
+                    .WithDataTimestamp(book.Time, _client.GetTimeOffset())
+                    .WithSequenceNumber(book.SequenceId)
                     .WithUpdateType(string.Equals(message.Action, "snapshot", StringComparison.Ordinal) || message.Action == null ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
             );
         return CallResult.SuccessResult;

@@ -8,8 +8,8 @@ namespace OKX.Net.Clients
     /// <inheritdoc />
     public class OKXUserClientProvider : IOKXUserClientProvider
     {
-        private static ConcurrentDictionary<string, IOKXRestClient> _restClients = new ConcurrentDictionary<string, IOKXRestClient>();
-        private static ConcurrentDictionary<string, IOKXSocketClient> _socketClients = new ConcurrentDictionary<string, IOKXSocketClient>();
+        private ConcurrentDictionary<string, IOKXRestClient> _restClients = new ConcurrentDictionary<string, IOKXRestClient>();
+        private ConcurrentDictionary<string, IOKXSocketClient> _socketClients = new ConcurrentDictionary<string, IOKXSocketClient>();
 
         private readonly IOptions<OKXRestOptions> _restOptions;
         private readonly IOptions<OKXSocketOptions> _socketOptions;
@@ -38,13 +38,14 @@ namespace OKX.Net.Clients
             IOptions<OKXSocketOptions> socketOptions)
         {
             _httpClient = httpClient ?? new HttpClient();
+            _httpClient.Timeout = restOptions.Value.RequestTimeout;
             _loggerFactory = loggerFactory;
             _restOptions = restOptions;
             _socketOptions = socketOptions;
         }
 
         /// <inheritdoc />
-        public void InitializeUserClient(string userIdentifier, ApiCredentials credentials, OKXEnvironment? environment = null)
+        public void InitializeUserClient(string userIdentifier, OKXCredentials credentials, OKXEnvironment? environment = null)
         {
             CreateRestClient(userIdentifier, credentials, environment);
             CreateSocketClient(userIdentifier, credentials, environment);
@@ -58,24 +59,24 @@ namespace OKX.Net.Clients
         }
 
         /// <inheritdoc />
-        public IOKXRestClient GetRestClient(string userIdentifier, ApiCredentials? credentials = null, OKXEnvironment? environment = null)
+        public IOKXRestClient GetRestClient(string userIdentifier, OKXCredentials? credentials = null, OKXEnvironment? environment = null)
         {
-            if (!_restClients.TryGetValue(userIdentifier, out var client))
+            if (!_restClients.TryGetValue(userIdentifier, out var client) || client.Disposed)
                 client = CreateRestClient(userIdentifier, credentials, environment);
 
             return client;
         }
 
         /// <inheritdoc />
-        public IOKXSocketClient GetSocketClient(string userIdentifier, ApiCredentials? credentials = null, OKXEnvironment? environment = null)
+        public IOKXSocketClient GetSocketClient(string userIdentifier, OKXCredentials? credentials = null, OKXEnvironment? environment = null)
         {
-            if (!_socketClients.TryGetValue(userIdentifier, out var client))
+            if (!_socketClients.TryGetValue(userIdentifier, out var client) || client.Disposed)
                 client = CreateSocketClient(userIdentifier, credentials, environment);
 
             return client;
         }
 
-        private IOKXRestClient CreateRestClient(string userIdentifier, ApiCredentials? credentials, OKXEnvironment? environment)
+        private IOKXRestClient CreateRestClient(string userIdentifier, OKXCredentials? credentials, OKXEnvironment? environment)
         {
             var clientRestOptions = SetRestEnvironment(environment);
             var client = new OKXRestClient(_httpClient, _loggerFactory, clientRestOptions);
@@ -87,7 +88,7 @@ namespace OKX.Net.Clients
             return client;
         }
 
-        private IOKXSocketClient CreateSocketClient(string userIdentifier, ApiCredentials? credentials, OKXEnvironment? environment)
+        private IOKXSocketClient CreateSocketClient(string userIdentifier, OKXCredentials? credentials, OKXEnvironment? environment)
         {
             var clientSocketOptions = SetSocketEnvironment(environment);
             var client = new OKXSocketClient(clientSocketOptions!, _loggerFactory);

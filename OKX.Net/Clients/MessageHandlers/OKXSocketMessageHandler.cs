@@ -13,7 +13,7 @@ namespace OKX.Net.Clients.MessageHandlers
         public OKXSocketMessageHandler()
         {
             AddTopicMapping<OKXSocketUpdate>(x => x.Arg.InstrumentType + x.Arg.InstrumentFamily + x.Arg.Symbol);
-            AddTopicMapping<OKXSocketResponse>(x => x.Arg?.Symbol ?? x.Arg?.Asset);
+            AddTopicMapping<OKXSocketResponse>(x => x.Arg?.InstrumentType + x.Arg?.InstrumentFamily + (x.Arg?.Symbol ?? x.Arg?.Asset));
         }
 
         protected override MessageTypeDefinition[] TypeEvaluators { get; } = [
@@ -68,12 +68,12 @@ namespace OKX.Net.Clients.MessageHandlers
             },
         ];
 
-        public override string? GetTypeIdentifier(ReadOnlySpan<byte> data, WebSocketMessageType? webSocketMessageType)
+        protected override string? GetTypeIdentifierNonJson(ReadOnlySpan<byte> data, WebSocketMessageType? webSocketMessageType)
         {
             if (data.Length == 4)
                 return "pong";
 
-            return base.GetTypeIdentifier(data, webSocketMessageType);
+            return null;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using CryptoExchange.Net.Clients;
-using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Converters.MessageParsing.DynamicConverters;
 using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.SharedApis;
@@ -7,16 +6,13 @@ using OKX.Net.Clients.MessageHandlers;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Options;
-using System.Net.Http.Headers;
 
 namespace OKX.Net.Clients.UnifiedApi;
 
-internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
+internal partial class OKXRestClientUnifiedApi : RestApiClient<OKXEnvironment, OKXAuthenticationProvider, OKXCredentials>, IOKXRestClientUnifiedApi
 {
     #region Internal Fields
     public new OKXRestOptions ClientOptions => (OKXRestOptions)base.ClientOptions;
-
-    private static TimeSyncState _timeSyncState = new("Unified Api");
 
     protected override IRestMessageHandler MessageHandler { get; } = new OKXRestMessageHandler(OKXErrors.ErrorMapping);
     protected override ErrorMapping ErrorMapping => OKXErrors.ErrorMapping;
@@ -53,13 +49,10 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
     }
 
     /// <inheritdoc />
-    protected override IStreamMessageAccessor CreateAccessor() => new SystemTextJsonStreamMessageAccessor(SerializerOptions.WithConverters(OKXExchange._serializerContext));
-
-    /// <inheritdoc />
     protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(OKXExchange._serializerContext));
 
     /// <inheritdoc />
-    protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
+    protected override OKXAuthenticationProvider CreateAuthenticationProvider(OKXCredentials credentials)
         => new OKXAuthenticationProvider(credentials);
 
     /// <inheritdoc />
@@ -98,13 +91,5 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
     /// <inheritdoc />
     protected override Task<WebCallResult<DateTime>> GetServerTimestampAsync()
         => ExchangeData.GetServerTimeAsync();
-
-    /// <inheritdoc />
-    public override TimeSyncInfo? GetTimeSyncInfo()
-        => new(_logger, ClientOptions.AutoTimestamp, ClientOptions.TimestampRecalculationInterval, _timeSyncState);
-
-    /// <inheritdoc />
-    public override TimeSpan? GetTimeOffset()
-        => _timeSyncState.TimeOffset;
 
 }

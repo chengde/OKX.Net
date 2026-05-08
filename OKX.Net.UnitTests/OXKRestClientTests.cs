@@ -1,15 +1,16 @@
-﻿using NUnit.Framework;
-using OKX.Net.Clients;
-using OKX.Net.Objects.Core;
-using NUnit.Framework.Legacy;
-using CryptoExchange.Net.Clients;
-using OKX.Net.Objects;
-using System.Text.Json;
+﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Objects;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using CryptoExchange.Net.Objects;
+using NUnit.Framework;
+using NUnit.Framework.Legacy;
+using OKX.Net.Clients;
+using OKX.Net.Clients.UnifiedApi;
+using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients;
-using CryptoExchange.Net.Authentication;
+using OKX.Net.Objects.Core;
+using System.Net;
+using System.Text.Json;
 
 namespace OKX.Net.UnitTests
 {
@@ -31,7 +32,7 @@ namespace OKX.Net.UnitTests
             TestHelpers.SetResponse((OKXRestClient)client, JsonSerializer.Serialize(resultObj));
 
             // act
-            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.InstrumentType.Spot);
+            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(InstrumentType.Spot);
 
             // assert
             ClassicAssert.IsFalse(result.Success);
@@ -45,10 +46,10 @@ namespace OKX.Net.UnitTests
         {
             // arrange
             var client = TestHelpers.CreateClient();
-            TestHelpers.SetResponse((OKXRestClient)client, "", System.Net.HttpStatusCode.BadRequest);
+            TestHelpers.SetResponse((OKXRestClient)client, "", HttpStatusCode.BadRequest);
 
             // act
-            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.InstrumentType.Spot);
+            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(InstrumentType.Spot);
 
             // assert
             ClassicAssert.IsFalse(result.Success);
@@ -60,10 +61,10 @@ namespace OKX.Net.UnitTests
         {
             // arrange
             var client = TestHelpers.CreateClient();
-            TestHelpers.SetResponse((OKXRestClient)client, "{ \"code\": \"400001\", \"msg\": \"Error occurred\" }", System.Net.HttpStatusCode.BadRequest);
+            TestHelpers.SetResponse((OKXRestClient)client, "{ \"code\": \"400001\", \"msg\": \"Error occurred\" }", HttpStatusCode.BadRequest);
 
             // act
-            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.InstrumentType.Spot);
+            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(InstrumentType.Spot);
 
             // assert
             ClassicAssert.IsFalse(result.Success);
@@ -77,7 +78,7 @@ namespace OKX.Net.UnitTests
         public void CheckSignatureExample()
         {
             var authProvider = new OKXAuthenticationProvider(
-                new ApiCredentials("XXX", "22582BD0CFF14C41EDBF1AB98506286D", "PHRASE")
+                new OKXCredentials("XXX", "22582BD0CFF14C41EDBF1AB98506286D", "PHRASE")
                 );
             var client = (RestApiClient)new OKXRestClient().UnifiedApi;
 
@@ -97,7 +98,7 @@ namespace OKX.Net.UnitTests
                     { "lever", "5" },
                     { "mgnMode", "isolated" }
                 },
-                time: new DateTime(2020, 12, 08, 09, 08, 57, 715, DateTimeKind.Utc));
+                time: new DateTime(2020, 12, 08, 09, 08, 58, 715, DateTimeKind.Utc));
         }
 
         [Test]
@@ -106,7 +107,7 @@ namespace OKX.Net.UnitTests
             CryptoExchange.Net.Testing.TestHelpers.CheckForMissingRestInterfaces<OKXRestClient>();
             CryptoExchange.Net.Testing.TestHelpers.CheckForMissingSocketInterfaces<OKXSocketClient>();
         }
-        
+
 
         [Test]
         [TestCase(TradeEnvironmentNames.Live, "https://www.okx.com")]
@@ -201,8 +202,8 @@ namespace OKX.Net.UnitTests
 
             Assert.That(((BaseApiClient)restClient.UnifiedApi).OutputOriginalData, Is.True);
             Assert.That(((BaseApiClient)socketClient.UnifiedApi).OutputOriginalData, Is.False);
-            Assert.That(((BaseApiClient)restClient.UnifiedApi).AuthenticationProvider.ApiKey, Is.EqualTo("123"));
-            Assert.That(((BaseApiClient)socketClient.UnifiedApi).AuthenticationProvider.ApiKey, Is.EqualTo("456"));
+            Assert.That(((OKXRestClientUnifiedApi)restClient.UnifiedApi).AuthenticationProvider.Key, Is.EqualTo("123"));
+            Assert.That(((OKXSocketClientUnifiedApi)socketClient.UnifiedApi).AuthenticationProvider.Key, Is.EqualTo("456"));
             Assert.That(((BaseApiClient)restClient.UnifiedApi).ClientOptions.Proxy.Host, Is.EqualTo("host"));
             Assert.That(((BaseApiClient)restClient.UnifiedApi).ClientOptions.Proxy.Port, Is.EqualTo(80));
             Assert.That(((BaseApiClient)socketClient.UnifiedApi).ClientOptions.Proxy.Host, Is.EqualTo("host2"));

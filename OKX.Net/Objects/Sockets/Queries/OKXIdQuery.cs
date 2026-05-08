@@ -1,6 +1,7 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Sockets;
 using CryptoExchange.Net.Sockets.Default;
+using CryptoExchange.Net.Sockets.Default.Routing;
 using OKX.Net.Objects.Sockets.Models;
 
 namespace OKX.Net.Objects.Sockets.Queries;
@@ -11,7 +12,6 @@ internal class OKXIdQuery<T> : Query<OKXSocketResponse<T[]>>
     public OKXIdQuery(SocketApiClient client, string op, object[] args, bool authenticated, int weight = 1) : base(new OKXSocketIdRequest() { Id = ExchangeHelpers.NextId().ToString(), Op = op, Args = args }, authenticated, weight)
     {
         _client = client;
-        MessageMatcher = MessageMatcher.Create<OKXSocketResponse<T[]>>(((OKXSocketIdRequest)Request).Id, HandleMessage);
         MessageRouter = MessageRouter.CreateWithoutTopicFilter<OKXSocketResponse<T[]>>(((OKXSocketIdRequest)Request).Id, HandleMessage);
     }
 
