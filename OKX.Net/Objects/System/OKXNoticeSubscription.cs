@@ -14,7 +14,6 @@ public class OKXNoticeSubscription : SystemSubscription
     /// <param name="OnNotice">The action to invoke when a notice message is received.</param>
     public OKXNoticeSubscription(ILogger logger, Action<OKXNotice>? OnNotice) : base(logger, false)
     {
-        base.MessageMatcher = MessageMatcher.Create<OKXNotice>("notice");
         base.MessageRouter = MessageRouter.CreateWithOptionalTopicFilters<OKXNotice>("notice", null, (sc, dt, st, notice) => { OnNotice?.Invoke(notice); return CallResult.SuccessResult; });
         ;
     }

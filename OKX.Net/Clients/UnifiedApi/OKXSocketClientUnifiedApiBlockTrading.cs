@@ -29,7 +29,7 @@ internal class OKXSocketClientUnifiedApiBlockTrading : IOKXSocketClientUnifiedAp
             onData(
                 new DataEvent<OKXRfq>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                    .WithDataTimestamp(data.Data.First().LastUpdatedTime)
+                    .WithDataTimestamp(data.Data.First().LastUpdatedTime, null)
                     .WithStreamId(data.Arg.Channel)
                     .WithSymbol(data.Arg.Symbol)
                 );
@@ -53,7 +53,7 @@ internal class OKXSocketClientUnifiedApiBlockTrading : IOKXSocketClientUnifiedAp
             onData(
                 new DataEvent<OKXQuote>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                    .WithDataTimestamp(data.Data.First().LastUpdatedTime)
+                    .WithDataTimestamp(data.Data.First().LastUpdatedTime, null)
                     .WithStreamId(data.Arg.Channel)
                     .WithSymbol(data.Arg.Symbol)
                 );
@@ -77,7 +77,7 @@ internal class OKXSocketClientUnifiedApiBlockTrading : IOKXSocketClientUnifiedAp
             {
                 onData(
                     new DataEvent<OKXBlockTrade>(OKXExchange.ExchangeName, blockTrade, receiveTime, originalData)
-                        .WithDataTimestamp(blockTrade.ExecutionTime)
+                        .WithDataTimestamp(blockTrade.ExecutionTime, null)
                         .WithStreamId(data.Arg.Channel)
                         .WithSymbol(data.Arg.Symbol)
                     );
