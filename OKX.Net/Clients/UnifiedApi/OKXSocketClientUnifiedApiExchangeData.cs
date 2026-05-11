@@ -717,7 +717,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
                 onData(
                     new DataEvent<OKXTrade>(OKXExchange.ExchangeName, trade, receiveTime, originalData)
                         .WithStreamId(data.Arg.Channel)
-                        .WithDataTimestamp(trade.Time, null)
+                        .WithDataTimestamp(trade.Time, _client.GetTimeOffset())
                         .WithSymbol(trade.Symbol)
                     );
             }
